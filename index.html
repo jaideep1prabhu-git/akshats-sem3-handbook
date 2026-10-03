@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1F2023" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Study Hub">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Akshat's Study Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6FB; --grid:#DDE5F1; --card:#FFFFFF; --ink:#14213D; --mute:#55627A; --line:#D3DCE9;
+  --m:#2A5BD7; --m-s:#E3EBFD; --p:#0B7A62; --p-s:#DDF3EC; --c:#A82A72; --c-s:#F8E3EF;
+  --o:#B45309; --o-s:#FBEBD5; --k:#4F52C8; --k-s:#E6E7FA;
+  --accent:var(--k); --accent-soft:var(--k-s);
+  --ui:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --math:'STIX Two Text',Georgia,'Times New Roman',serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme]){
+    --bg:#17181A; --grid:#1F2022; --card:#1F2023; --ink:#E8E6E1; --mute:#A4A39E; --line:#36373C;
+    --m:#8FB0F2; --m-s:#2A3142; --p:#6FCDB0; --p-s:#223630; --c:#E59ABD; --c-s:#3D2832;
+    --o:#F0A35E; --o-s:#40291A; --k:#9FA3F5; --k-s:#262850; color-scheme:dark;
+  }
+}
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="paper"]{
+  --bg:#F6F0E4; --grid:#E8DFCB; --card:#FFFBF2; --ink:#2B2418; --mute:#6E6451; --line:#DDD1B9;
+  --m:#2F5BB7; --m-s:#E8ECF6; --p:#1E7A5F; --p-s:#E0F0E4; --c:#A3306F; --c-s:#F6E3EA;
+  --o:#A8480A; --o-s:#F5E6D0; --k:#4A4DB8; --k-s:#E6E7F4; color-scheme:light;
+}
+:root[data-theme="charcoal"]{
+  --bg:#17181A; --grid:#1F2022; --card:#1F2023; --ink:#E8E6E1; --mute:#A4A39E; --line:#36373C;
+  --m:#8FB0F2; --m-s:#2A3142; --p:#6FCDB0; --p-s:#223630; --c:#E59ABD; --c-s:#3D2832;
+  --o:#F0A35E; --o-s:#40291A; --k:#9FA3F5; --k-s:#262850; color-scheme:dark;
+}
+:root[data-theme="board"]{
+  --bg:#14231D; --grid:#1A2D25; --card:#1A2C24; --ink:#EEF1E6; --mute:#A9B8AB; --line:#2F4A3D;
+  --m:#A9C8F5; --m-s:#23394A; --p:#8EE0B5; --p-s:#1F4A38; --c:#F2A6C8; --c-s:#4A2C3C;
+  --o:#F2B77A; --o-s:#4A3320; --k:#B3B6F7; --k-s:#2B3050; color-scheme:dark;
+}
+:root[data-theme="black"]{
+  --bg:#000000; --grid:#0A0A0A; --card:#0E0E0F; --ink:#EDEDED; --mute:#9A9A9A; --line:#2A2A2A;
+  --m:#86A5E8; --m-s:#151C2E; --p:#5CC9A8; --p-s:#0E2A23; --c:#E58FB8; --c-s:#2E1520;
+  --o:#E9A064; --o-s:#2B1A0C; --k:#9A9EF0; --k-s:#171832; color-scheme:dark;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--bar-h,120px) + 10px);background:var(--bg)}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none !important}
+body{margin:0;font-family:var(--ui);color:var(--ink);background-color:var(--bg);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;line-height:1.5}
+body[data-sub="dash"],body[data-sub="tools"],body[data-sub="m3"]{--accent:var(--k);--accent-soft:var(--k-s)}
+body[data-sub="ds"]{--accent:var(--m);--accent-soft:var(--m-s)}
+body[data-sub="lcs"]{--accent:var(--c);--accent-soft:var(--c-s)}
+body[data-sub="dd"]{--accent:var(--p);--accent-soft:var(--p-s)}
+body[data-sub="oop"]{--accent:var(--o);--accent-soft:var(--o-s)}
+
+.course[data-c="ds"]{--accent:var(--m);--accent-soft:var(--m-s)}
+.course[data-c="lcs"]{--accent:var(--c);--accent-soft:var(--c-s)}
+.course[data-c="dd"]{--accent:var(--p);--accent-soft:var(--p-s)}
+.course[data-c="oop"]{--accent:var(--o);--accent-soft:var(--o-s)}
+.course[data-c="m3"]{--accent:var(--k);--accent-soft:var(--k-s)}
+.course-title{margin:1.4rem 0 .6rem;font-size:1.5rem;color:var(--accent)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--card);border-bottom:3px solid var(--accent)}
+.bar-in{max-width:1200px;margin:0 auto;padding:.7rem 1rem .5rem}
+.title-row{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;justify-content:space-between}
+h1{margin:0;font-size:1.25rem;line-height:1.2;font-weight:700}
+.sub{margin:.1rem 0 0;color:var(--mute);font-size:.85rem}
+.tools{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center}
+.search,.in,select.in,input.in{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:6px;padding:.4rem .6rem}
+.search{min-width:min(100%,14rem)}
+.search:focus-visible,.btn:focus-visible,.tab:focus-visible,.star:focus-visible,.toc a:focus-visible,summary:focus-visible,.in:focus-visible,.copy:focus-visible,.theme select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn{font:inherit;font-size:.9rem;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:6px;padding:.4rem .7rem;cursor:pointer}
+.btn[aria-pressed="true"],.btn.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.theme{display:inline-flex;align-items:center;gap:.4rem;font-size:.9rem;color:var(--mute)}
+.theme select{cursor:pointer}
+.tabs{display:flex;gap:.4rem;margin-top:.55rem;overflow-x:auto;padding-bottom:2px}
+.tab{font:inherit;font-weight:700;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);padding:.42rem .9rem;border-radius:6px 6px 0 0;cursor:pointer;white-space:nowrap}
+.tab small{font-weight:400;color:var(--mute);margin-left:.35rem}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.tab[aria-selected="true"] small{color:inherit;opacity:.85}
+.tabs.second .tab{font-size:.9rem;padding:.3rem .7rem;font-weight:400}
+.tabs.second .tab[data-s="ds"][aria-selected="true"]{background:var(--m);border-color:var(--m)}
+.tabs.second .tab[data-s="lcs"][aria-selected="true"]{background:var(--c);border-color:var(--c)}
+.tabs.second .tab[data-s="dd"][aria-selected="true"]{background:var(--p);border-color:var(--p)}
+.tabs.second .tab[data-s="oop"][aria-selected="true"]{background:var(--o);border-color:var(--o)}
+.tabs.second .tab[data-s="m3"][aria-selected="true"]{background:var(--k);border-color:var(--k)}
+
+.layout{max-width:1200px;margin:0 auto;padding:1rem}
+.hand{display:grid;grid-template-columns:220px minmax(0,1fr);gap:1.4rem;align-items:start}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--bar-h,120px) + 12px);max-height:calc(100vh - var(--bar-h,120px) - 40px);overflow:auto;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:4px;padding:.5rem}
+.toc a{display:block;padding:.35rem .5rem;border-radius:4px;color:var(--ink);text-decoration:none;font-size:.9rem}
+.toc a:hover{background:var(--accent-soft)}
+main,.view{min-width:0}
+.chap{margin-bottom:2.2rem}
+.chead{display:flex;align-items:baseline;gap:.8rem;margin:0 0 .8rem;padding-bottom:.35rem;border-bottom:2px solid var(--accent)}
+.chead h2{margin:0;font-family:var(--math);font-size:1.6rem;font-weight:600;line-height:1.2}
+.ccount{color:var(--mute);font-size:.85rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,310px),1fr));gap:.7rem}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:4px;padding:.7rem 2.3rem .75rem .85rem;min-width:0}
+.card.wide{grid-column:1/-1;padding-right:2.6rem}
+.clabel{font-weight:700;font-size:.92rem;margin-bottom:.25rem}
+.badge{display:inline-block;margin-left:.5rem;font-weight:400;font-size:.72rem;color:var(--mute);border:1px solid var(--line);border-radius:10px;padding:0 .5rem;vertical-align:middle}
+.formula{font-family:var(--math);font-size:1.18rem;line-height:1.9;color:var(--accent);overflow-wrap:anywhere}
+.cnote{color:var(--mute);font-size:.85rem;margin-top:.2rem;overflow-wrap:anywhere}
+.star{position:absolute;top:.35rem;right:.4rem;border:0;background:transparent;color:var(--mute);font-size:1.3rem;line-height:1;cursor:pointer;padding:.25rem;border-radius:4px}
+.star[aria-pressed="true"]{color:var(--accent)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{border:1px solid var(--line);padding:.4rem .6rem;text-align:left;vertical-align:top}
+th{background:var(--accent-soft);font-weight:700}
+.card td{font-family:var(--math);font-size:1.02rem}
+.card ul{margin:.1rem 0 0;padding-left:1.15rem}
+.card li{margin:.2rem 0;font-family:var(--math);font-size:1.02rem}
+code{font-family:var(--mono);font-size:.86em;background:var(--accent-soft);border-radius:3px;padding:.05em .3em}
+pre{margin:.2rem 0 0;overflow-x:auto;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:.6rem .8rem}
+pre code{background:none;padding:0;font-size:.85rem;line-height:1.55;color:var(--ink)}
+.copy{position:absolute;top:.35rem;right:.5rem;font:inherit;font-size:.78rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:.15rem .5rem;cursor:pointer}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .15em;line-height:1.25}
+.fr .nu{border-bottom:1.5px solid currentColor;padding:0 .3em}
+.fr .de{padding:0 .3em}
+.rad .ov{border-top:1.5px solid currentColor;padding:0 .12em;margin-left:1px}
+.traps{margin-top:.8rem;background:var(--accent-soft);border-radius:4px;padding:.45rem .8rem}
+.traps summary{cursor:pointer;font-weight:700}
+.traps ul{margin:.4rem 0 .2rem;padding-left:1.1rem}
+.traps li{margin:.2rem 0}
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:4px;padding:1.2rem;color:var(--mute)}
+
+/* dashboard and tools */
+.panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr));gap:1rem;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:4px;padding:.9rem 1rem;min-width:0}
+.panel h2{margin:0 0 .6rem;font-size:1.1rem}
+.panel h3{margin:1rem 0 .4rem;font-size:.95rem}
+.row{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:end;margin:.6rem 0}
+.row label,.fld{display:flex;flex-direction:column;gap:.2rem;font-size:.85rem;color:var(--mute)}
+.in{width:100%}
+.in.num{width:5.5rem}
+.in.sm{width:4rem}
+.in.date{width:auto}
+table.form td,table.form th{padding:.25rem .35rem}
+table.form input.in,table.form select.in{padding:.3rem .4rem}
+.result{margin-top:.7rem;padding:.6rem .8rem;background:var(--accent-soft);border-radius:4px;font-size:1rem}
+.mute{color:var(--mute)}
+.scale{display:grid;grid-template-columns:repeat(auto-fill,minmax(5rem,1fr));gap:.5rem;margin:.5rem 0}
+.scale label{display:flex;flex-direction:column;font-size:.8rem;color:var(--mute)}
+details.mini{margin:.3rem 0}
+details.mini summary{cursor:pointer;font-weight:700;font-size:.9rem}
+.ev{display:flex;justify-content:space-between;gap:.8rem;align-items:center;border-bottom:1px solid var(--line);padding:.35rem 0}
+.ev.past{opacity:.55}
+.ev b{white-space:nowrap}
+.x{border:0;background:transparent;color:var(--mute);font-size:1.1rem;cursor:pointer;padding:.1rem .4rem}
+.tt{font-family:var(--mono);font-size:.85rem}
+.tt td,.tt th{text-align:center;padding:.2rem .5rem}
+.tt tr.hit td{background:var(--accent-soft)}
+.tools-grid{display:grid;gap:1rem}
+.kmap{display:inline-grid;gap:0;font-family:var(--mono);margin:.4rem 0}
+.kmap div{border:1px solid var(--line);min-width:3rem;min-height:2.6rem;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.95rem;position:relative}
+.kmap .h{background:var(--accent-soft);font-size:.75rem;color:var(--mute)}
+.kmap .dots{display:flex;gap:2px;margin-top:2px}
+.kmap .dots i{width:.55rem;height:.55rem;border-radius:50%;display:inline-block}
+.legend{display:flex;flex-wrap:wrap;gap:.3rem 1rem;font-family:var(--mono);font-size:.85rem;margin:.2rem 0 .5rem}
+.legend i{width:.7rem;height:.7rem;border-radius:50%;display:inline-block;margin-right:.35rem}
+.err{color:#C0392B}
+:root[data-theme="charcoal"] .err,:root[data-theme="board"] .err,:root[data-theme="black"] .err{color:#FF8A7A}
+@media (prefers-color-scheme: dark){:root:not([data-theme]) .err{color:#FF8A7A}}
+.big{font-family:var(--mono);overflow-wrap:anywhere}
+.seg{display:inline-flex;gap:0}
+.seg .btn{border-radius:0}
+.seg .btn:first-child{border-radius:6px 0 0 6px}
+.seg .btn:last-child{border-radius:0 6px 6px 0}
+footer{max-width:1200px;margin:0 auto;padding:0 1rem 2rem;color:var(--mute);font-size:.85rem}
+footer .credit{margin-top:1.2rem;padding-top:.8rem;border-top:2px solid var(--accent);text-align:center;color:var(--ink);font-size:.95rem;line-height:1.7}
+footer .credit span{color:#D6336C}
+@media (max-width:820px){
+  .hand{grid-template-columns:minmax(0,1fr)}
+  .layout{padding:.7rem}
+  .toc{position:static;max-height:none;display:flex;gap:.3rem;overflow-x:auto;border-left:1px solid var(--line);border-top:4px solid var(--accent)}
+  .toc a{white-space:nowrap;border:1px solid var(--line)}
+  .chead h2{font-size:1.35rem}
+}
+@media print{
+  html,body{background:#fff !important}
+  .bar,.toc,.tools,.star,.copy,footer{display:none !important}
+  .hand{display:block}
+  .card{break-inside:avoid;color:#000}
+  .formula{color:#000}
+}
+</style>
+</head>
+<body data-sub="dash">
+<div class="bar" id="bar"><div class="bar-in">
+  <div class="title-row">
+    <div>
+      <h1>Akshat's Study Hub</h1>
+      <p class="sub">Sem 3 · Dashboard, course handbooks and tools</p>
+    </div>
+    <div class="tools">
+      <input class="search" id="q" type="search" placeholder="Search handbooks" aria-label="Search handbooks">
+      <button class="btn" id="starBtn" aria-pressed="false">★ Starred <span id="starCount">0</span></button>
+      <label class="theme">Theme <select id="themeSel" class="btn"><option value="auto">Auto</option><option value="light">Light</option><option value="paper">Paper</option><option value="charcoal">Charcoal</option><option value="board">Blackboard</option><option value="black">Black</option></select></label>
+    </div>
+  </div>
+  <div class="tabs" id="vtabs" role="tablist" aria-label="Sections"></div>
+  <div class="tabs second" id="ctabs" role="tablist" aria-label="Courses" hidden></div>
+</div></div>
+<div class="layout">
+  <div class="view" id="view-dash"></div>
+  <div class="view hand" id="view-hand" hidden>
+    <nav class="toc" id="toc" aria-label="Chapters"></nav>
+    <main id="main"></main>
+  </div>
+  <div class="view" id="view-tools" hidden></div>
+</div>
+<footer>
+  <p>Your marks, grades, deadlines and starred cards are saved only on this device. Handbook cards marked “Cross-check” may go beyond the syllabus or differ between textbooks and professors, so confirm against your course handout. BITS grades are relative, so the marks tracker is a guide, not a prediction.</p>
+  <p class="credit"><strong>Akshat's Study Hub © 2026.</strong> Built for Sem 3 success.<br>Prepared with <span aria-label="love">❤</span> by Pappa</p>
+</footer>
+<script>
+const DATA={};
+DATA.ds={name:'Discrete Structures',code:'CS F222',ch:[
+{id:'ds-proof',t:'Proof Techniques and Induction',f:[
+["Direct proof","Assume p, derive q through valid steps to show p → q",""],
+["Contrapositive","p → q ≡ ¬q → ¬p","Prove the contrapositive when ¬q is easier to use"],
+["Contradiction","Assume ¬(statement), derive a contradiction (r ∧ ¬r)","Typical: √2 is irrational, infinitely many primes"],
+{title:'Mathematical induction template',list:["Basis: show P(n₀) is true.","Inductive hypothesis: assume P(k) for an arbitrary k ≥ n₀.","Inductive step: prove P(k + 1) using the hypothesis, and say clearly where it is used.","Conclusion: by induction P(n) holds for all n ≥ n₀."]},
+["Strong induction","Assume P(n₀), …, P(k) all true, then prove P(k + 1)","Use when the step needs several earlier cases (like recurrences with two terms)"],
+["Pigeonhole principle","n objects in k boxes ⇒ some box has at least ⌈{{n||k}}⌉ objects",""],
+["Existence proofs","Constructive: exhibit an example. Non-constructive: show one must exist",""]
+],tips:["State what you are proving, and write the induction hypothesis explicitly.","Check the basis case carefully, especially for n = 0 and n = 1."]},
+
+{id:'ds-sets',t:'Sets',f:[
+["Union of two sets","|A ∪ B| = |A| + |B| − |A ∩ B|",""],
+["Union of three sets","|A ∪ B ∪ C| = |A| + |B| + |C| − |A∩B| − |B∩C| − |A∩C| + |A∩B∩C|","Inclusion-exclusion"],
+["Power set","|P(A)| = 2^{n}","n = |A|; includes ∅ and A"],
+["Cartesian product","|A × B| = |A| × |B|",""],
+["Symmetric difference","|A Δ B| = |A| + |B| − 2|A ∩ B|",""],
+["Subsets of size k","C(n, k) = {{n!||k!(n − k)!}}",""],
+["De Morgan","(A ∪ B)ᶜ = Aᶜ ∩ Bᶜ ; (A ∩ B)ᶜ = Aᶜ ∪ Bᶜ",""],
+["Distributive laws","A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C) ; A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)",""],
+["Other identities","A − B = A ∩ Bᶜ ; A ∪ ∅ = A ; A ∩ U = A ; A ∪ Aᶜ = U ; A ∩ Aᶜ = ∅",""],
+["Countability","ℕ, ℤ, ℚ are countable; ℝ and P(ℕ) are uncountable","Cantor's diagonal argument"]
+],tips:["Draw a Venn diagram before applying inclusion-exclusion.","To prove A = B, show A ⊆ B and B ⊆ A."]},
+
+{id:'ds-rel',t:'Relations',f:[
+{title:'Properties of a relation R on set A',tbl:{head:["Property","Meaning"],rows:[["Reflexive","(a, a) ∈ R for all a ∈ A"],["Irreflexive","(a, a) ∉ R for all a"],["Symmetric","(a, b) ∈ R ⇒ (b, a) ∈ R"],["Antisymmetric","(a, b) ∈ R and (b, a) ∈ R ⇒ a = b"],["Transitive","(a, b), (b, c) ∈ R ⇒ (a, c) ∈ R"]]}},
+["Equivalence relation","Reflexive + symmetric + transitive","Gives a partition of A into equivalence classes"],
+["Partial order","Reflexive + antisymmetric + transitive","Drawn as a Hasse diagram (no loops, no transitive edges, no arrows)"],
+["Counting relations on n elements","All: 2^{n²} ; Reflexive: 2^{n² − n} ; Symmetric: 2^{n(n+1)/2}",""],
+["Antisymmetric relations","2^{n} × 3^{n(n−1)/2}",""],
+["Closures","Reflexive: R ∪ Δ ; Symmetric: R ∪ R^{−1} ; Transitive: R^{+} = R ∪ R² ∪ … ∪ R^{n}","Warshall's algorithm finds the transitive closure"],
+["Composition","S ∘ R = {(a, c) : ∃b, (a, b) ∈ R and (b, c) ∈ S}","Matrix form: Boolean product of the matrices"],
+["Equivalence classes","[a] = {x : (a, x) ∈ R} ; classes are disjoint and cover A","Number of equivalence relations on n elements = Bell number"],
+["Poset terms","Maximal, minimal, greatest, least, upper bound, lower bound, LUB, GLB","Lattice: every pair has LUB and GLB"]
+],tips:["For each property, test a counterexample first.","Antisymmetric is not the opposite of symmetric. A relation can be both (e.g., identity)."]},
+
+{id:'ds-func',t:'Functions and Growth',f:[
+["Number of functions A → B","|B|^{|A|}",""],
+["Injective functions (|A| = m ≤ |B| = n)","{{n!||(n − m)!}}","One-to-one"],
+["Bijections (|A| = |B| = n)","n!",""],
+["Surjective functions (m onto n)","Σ_{k=0}^{n} (−1)^{k} C(n, k)(n − k)^{m}","Inclusion-exclusion"],
+["Inverse","f^{−1} exists ⇔ f is bijective",""],
+["Composition","(g ∘ f)(x) = g(f(x))","Not commutative in general"],
+["Floor and ceiling","⌊x⌋ ≤ x ≤ ⌈x⌉ ; ⌈x⌉ = −⌊−x⌋ ; ⌊x + n⌋ = ⌊x⌋ + n",""],
+["Big-O","f = O(g) ⇔ ∃ c > 0, n₀ such that f(n) ≤ c·g(n) for all n ≥ n₀",""],
+["Big-Ω and Big-Θ","f = Ω(g): f(n) ≥ c·g(n). f = Θ(g): both O(g) and Ω(g)",""],
+["Growth order","1 < log n < √n < n < n log n < n² < n³ < 2^{n} < n! < n^{n}",""]
+],tips:["To show f = O(g), pick explicit constants c and n₀.","One-to-one and onto depend on the domain and codomain, not just the formula."]},
+
+{id:'ds-count',t:'Counting',f:[
+["Product and sum rule","Tasks in sequence: multiply. Mutually exclusive choices: add",""],
+["Permutations","P(n, r) = {{n!||(n − r)!}}",""],
+["Combinations","C(n, r) = {{n!||r!(n − r)!}} ; C(n, r) = C(n, n − r)",""],
+["With repetition (order matters)","n^{r}",""],
+["With repetition (order does not matter)","C(n + r − 1, r)",""],
+["Identical objects","{{n!||n_{1}! n_{2}! … n_{k}!}}","Arrangements of MISSISSIPPI: 11!/(4!4!2!)"],
+["Circular arrangements","(n − 1)!","Necklace or bracelet: divide by 2 if flipping is allowed"],
+["Stars and bars (≥ 0)","x_{1} + … + x_{k} = n has C(n + k − 1, k − 1) solutions",""],
+["Stars and bars (≥ 1)","C(n − 1, k − 1)",""],
+["Binomial theorem","(x + y)^{n} = Σ C(n, k) x^{n−k} y^{k}",""],
+["Pascal's identity","C(n, k) = C(n − 1, k − 1) + C(n − 1, k)",""],
+["Row sums","Σ C(n, k) = 2^{n} ; Σ (−1)^{k} C(n, k) = 0",""],
+["Vandermonde","C(m + n, r) = Σ C(m, k) C(n, r − k)",""],
+["Inclusion-exclusion (general)","|A_{1} ∪ … ∪ A_{n}| = Σ|A_{i}| − Σ|A_{i}∩A_{j}| + Σ|A_{i}∩A_{j}∩A_{k}| − …",""],
+["Derangements","D_{n} = n! Σ_{k=0}^{n} {{(−1)^{k}||k!}} ; D_{n} ≈ {{n!||e}}","D_{1} = 0, D_{2} = 1, D_{3} = 2, D_{4} = 9"],
+["Catalan numbers","C_{n} = {{1||n + 1}}C(2n, n)","1, 1, 2, 5, 14, 42, …"]
+],tips:["Ask: does order matter, and is repetition allowed? That picks the formula.","For 'at least one', consider the complement."]},
+
+{id:'ds-rec',t:'Recurrences and Summations',f:[
+["Linear homogeneous recurrence","a_{n} = c_{1}a_{n−1} + c_{2}a_{n−2} ⇒ characteristic equation r² − c_{1}r − c_{2} = 0",""],
+["Distinct roots r_{1}, r_{2}","a_{n} = α r_{1}^{n} + β r_{2}^{n}","Find α, β from the initial conditions"],
+["Repeated root r","a_{n} = (α + βn) r^{n}",""],
+["Fibonacci","F_{n} = F_{n−1} + F_{n−2} ; F_{n} = {{φ^{n} − ψ^{n}||√⟨5⟩}}","φ = (1 + √5)/2, ψ = (1 − √5)/2"],
+["Tower of Hanoi","T_{n} = 2T_{n−1} + 1 ⇒ T_{n} = 2^{n} − 1",""],
+["Non-homogeneous","a_{n} = homogeneous solution + particular solution","Try a polynomial or exponential like the right-hand side. Cross-check"],
+["Master theorem","T(n) = aT(n/b) + f(n). Compare f(n) with n^{log_{b}a}","f smaller: Θ(n^{log_b a}). Equal: Θ(n^{log_b a} log n). Larger (with regularity): Θ(f(n))"],
+["Arithmetic sum","Σ_{k=1}^{n} k = {{n(n + 1)||2}}",""],
+["Squares and cubes","Σ k² = {{n(n + 1)(2n + 1)||6}} ; Σ k³ = ({{n(n + 1)||2}})²",""],
+["Geometric sum","Σ_{k=0}^{n} r^{k} = {{r^{n+1} − 1||r − 1}} (r ≠ 1) ; infinite: {{1||1 − r}} for |r| < 1",""],
+["Generating functions","1/(1 − x) = Σ x^{n} ; 1/(1 − ax) = Σ a^{n}x^{n} ; (1 + x)^{n} = Σ C(n, k)x^{k}","Cross-check"]
+],tips:["Always verify the closed form against the first two or three terms.","For the master theorem, compute n^{log_b a} first."]},
+
+{id:'ds-graph',t:'Graph Theory',f:[
+["Handshaking lemma","Σ deg(v) = 2|E|","So the number of odd-degree vertices is even"],
+["Edges in K_{n}","{{n(n − 1)||2}}",""],
+["Edges in K_{m,n}","mn",""],
+["Complete bipartite","K_{m,n}: no odd cycles; bipartite ⇔ no odd cycle ⇔ 2-colourable",""],
+["Euler circuit","Exists in a connected graph iff every vertex has even degree",""],
+["Euler path","Exists iff exactly 0 or 2 vertices have odd degree",""],
+["Hamiltonian (sufficient)","Dirac: n ≥ 3 and deg(v) ≥ {{n||2}} for all v ⇒ Hamiltonian","Ore: deg(u) + deg(v) ≥ n for all non-adjacent u, v"],
+["Planar graphs (Euler)","V − E + F = 2","For a connected planar graph"],
+["Planar bounds","E ≤ 3V − 6 (V ≥ 3) ; if no triangles E ≤ 2V − 4","K_5 and K_{3,3} are non-planar (Kuratowski)"],
+["Chromatic number","χ(G) ≥ clique size ; χ(G) ≤ Δ(G) + 1 ; χ(planar) ≤ 4","Four colour theorem"],
+["Matrices","Adjacency A: A^{k}[i][j] = number of walks of length k from i to j",""],
+["Isomorphism checks","Same number of vertices, edges, degree sequence, cycles, connectivity","Necessary, not sufficient"],
+["Shortest paths and flows","Dijkstra (non-negative weights), Bellman-Ford, BFS (unweighted). Max-flow = min-cut","Cross-check"]
+],tips:["Draw the graph and mark degrees first.","To show two graphs are not isomorphic, find an invariant that differs."]},
+
+{id:'ds-tree',t:'Trees',f:[
+["Tree facts","n vertices ⇒ n − 1 edges ; connected and acyclic ; unique path between any two vertices",""],
+["Full m-ary tree","i internal nodes ⇒ n = mi + 1 vertices and l = (m − 1)i + 1 leaves",""],
+["Maximum nodes","m-ary tree of height h has at most {{m^{h+1} − 1||m − 1}} nodes",""],
+["Binary tree height","Minimum height with n nodes: ⌈log_{2}(n + 1)⌉ − 1 ; maximum height: n − 1",""],
+["Leaves of binary tree","Leaves = (nodes with two children) + 1",""],
+["Traversals","Preorder: root, left, right. Inorder: left, root, right. Postorder: left, right, root",""],
+["Spanning trees","Kruskal (sort edges, avoid cycles) and Prim (grow from a vertex) give minimum spanning trees","A graph with n vertices has n − 1 edges in any spanning tree"],
+["Cayley's formula","Number of labelled trees on n vertices = n^{n−2}","Spanning trees of K_{n}"],
+["Huffman coding","Repeatedly merge the two lowest-weight nodes; prefix-free optimal code",""]
+],tips:["For full m-ary tree questions, write n = mi + 1 and l + i = n.","Inorder and preorder (or postorder) together determine a binary tree uniquely."]},
+
+{id:'ds-nt',t:'Number Theory (check against your handout)',f:[
+["Congruence","a ≡ b (mod m) ⇔ m | (a − b)","Cross-check"],
+["Modular arithmetic","(a + b) mod m, (a × b) mod m can be taken term by term","Cross-check"],
+["GCD (Euclid)","gcd(a, b) = gcd(b, a mod b)","Cross-check"],
+["Bézout","gcd(a, b) = ax + by for some integers x, y","Cross-check"],
+["LCM","lcm(a, b) = {{ab||gcd(a, b)}}","Cross-check"],
+["Inverse mod m","a^{−1} exists ⇔ gcd(a, m) = 1","Cross-check"],
+["Fermat's little theorem","a^{p−1} ≡ 1 (mod p) for prime p and p ∤ a","Cross-check"],
+["Euler's totient","φ(p) = p − 1 ; φ(p^{k}) = p^{k} − p^{k−1} ; φ(mn) = φ(m)φ(n) if gcd(m, n) = 1","Cross-check"],
+["Euler's theorem","a^{φ(n)} ≡ 1 (mod n) if gcd(a, n) = 1","Cross-check"],
+["Chinese remainder theorem","x ≡ a_{i} (mod m_{i}) with pairwise coprime m_{i} has a unique solution mod M = Πm_{i}","Cross-check"]
+],tips:["If this topic is not in your handout, ignore this chapter.","Reduce large powers using repeated squaring."]}
+]};
+DATA.lcs={name:'Logic in CS',code:'CS F214',ch:[
+{id:'lcs-prop',t:'Propositional Logic Basics',f:[
+{title:'Truth tables of the connectives',tbl:{head:["p","q","¬p","p ∧ q","p ∨ q","p → q","p ↔ q","p ⊕ q"],rows:[["T","T","F","T","T","T","T","F"],["T","F","F","F","T","F","F","T"],["F","T","T","F","T","T","F","T"],["F","F","T","F","F","T","T","F"]]}},
+{title:'Key equivalences',list:["p → q ≡ ¬p ∨ q ≡ ¬q → ¬p (contrapositive)","p ↔ q ≡ (p → q) ∧ (q → p) ≡ (p ∧ q) ∨ (¬p ∧ ¬q)","¬(p ∧ q) ≡ ¬p ∨ ¬q ; ¬(p ∨ q) ≡ ¬p ∧ ¬q (De Morgan)","p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r) ; p ∨ (q ∧ r) ≡ (p ∨ q) ∧ (p ∨ r)","p ∨ (p ∧ q) ≡ p ; p ∧ (p ∨ q) ≡ p (absorption)","¬(p → q) ≡ p ∧ ¬q","p → (q → r) ≡ (p ∧ q) → r","p ⊕ q ≡ (p ∨ q) ∧ ¬(p ∧ q)"]},
+["Valid, satisfiable, unsatisfiable","φ valid (tautology): true under every valuation. Satisfiable: true under some valuation. Unsatisfiable: true under none","φ is valid ⇔ ¬φ is unsatisfiable"],
+["Semantic entailment","φ₁, …, φₙ ⊨ ψ ⇔ (φ₁ ∧ … ∧ φₙ) → ψ is valid",""],
+["Boolean functions","n variables: 2^{n} rows, 2^{2^{n}} distinct functions",""],
+["Normal forms","NNF: negation only on atoms. CNF: AND of ORs. DNF: OR of ANDs","Every formula has an equivalent CNF and DNF"],
+["Precedence (Huth and Ryan)","¬ binds tightest, then ∧, ∨, then →, with → right-associative","p → q → r means p → (q → r)"]
+],tips:["For validity of an implication, try to make the premises true and the conclusion false. If impossible, it is valid.","Truth tables get large; use equivalences or natural deduction instead for 4+ variables."]},
+
+{id:'lcs-nd',t:'Natural Deduction (Propositional)',f:[
+{title:'Rules',tbl:{head:["Rule","Premises","Conclusion"],rows:[
+["∧i","φ and ψ","φ ∧ ψ"],
+["∧e₁, ∧e₂","φ ∧ ψ","φ ; ψ"],
+["∨i₁, ∨i₂","φ","φ ∨ ψ ; ψ ∨ φ"],
+["∨e","φ ∨ ψ, box [φ … χ], box [ψ … χ]","χ"],
+["→i","box [φ … ψ]","φ → ψ"],
+["→e (modus ponens)","φ and φ → ψ","ψ"],
+["¬i","box [φ … ⊥]","¬φ"],
+["¬e","φ and ¬φ","⊥"],
+["⊥e","⊥","any φ"],
+["¬¬e","¬¬φ","φ"],
+["¬¬i","φ","¬¬φ"],
+["MT (modus tollens)","φ → ψ and ¬ψ","¬φ"],
+["PBC (proof by contradiction)","box [¬φ … ⊥]","φ"],
+["LEM","nothing","φ ∨ ¬φ"]]}},
+["Sequent","φ₁, …, φₙ ⊢ ψ means there is a proof of ψ from the premises",""],
+["Soundness and completeness","Γ ⊢ ψ ⇔ Γ ⊨ ψ","Proofs are exactly the semantic consequences"],
+{title:'Proof-writing tips',list:["Work backwards from the goal and forwards from the premises at the same time.","To prove φ → ψ, open a box assuming φ and aim for ψ.","To prove ¬φ, assume φ and aim for ⊥.","To use φ ∨ ψ, do a case analysis with two boxes ending in the same conclusion.","Nothing inside a closed box may be used outside it, except the box's final conclusion via →i, ¬i, ∨e or PBC."]}
+],tips:["Number every line and write the rule with line numbers.","If stuck, try PBC or LEM."]},
+
+{id:'lcs-sat',t:'Normal Forms and SAT',f:[
+{title:'CNF conversion steps',list:["Eliminate ↔ and →: p → q becomes ¬p ∨ q.","Push negations to atoms with De Morgan and ¬¬p ≡ p (NNF).","Distribute ∨ over ∧: p ∨ (q ∧ r) becomes (p ∨ q) ∧ (p ∨ r).","Simplify duplicates and tautological clauses."]},
+["Horn clause","At most one positive literal, e.g. (¬p ∨ ¬q ∨ r) ≡ (p ∧ q → r)","SAT for Horn formulas is solvable in polynomial time"],
+{title:'Horn satisfiability algorithm (marking)',list:["Mark ⊤ and every atom that appears alone as a fact.","If all atoms on the left of a clause p₁ ∧ … ∧ pₖ → q are marked, mark q.","Repeat until nothing changes.","If ⊥ gets marked, the formula is unsatisfiable. Otherwise satisfiable (marked atoms true, rest false)."]},
+["Resolution rule","From (A ∨ p) and (B ∨ ¬p) infer (A ∨ B)","Derive the empty clause ⇒ unsatisfiable"],
+["DPLL","Unit propagation, pure literal elimination, then split on a variable and backtrack",""],
+["Complexity","SAT is NP-complete (Cook-Levin). 2-SAT and Horn-SAT are polynomial",""],
+["Validity check","To prove φ valid, show ¬φ unsatisfiable (e.g. by resolution)",""]
+],tips:["Keep clauses as sets: duplicates and order do not matter.","A clause containing p and ¬p is always true, so it can be dropped."]},
+
+{id:'lcs-pred',t:'Predicate Logic',f:[
+["Syntax","Terms (variables, constants, f(t₁,…,tₙ)); atoms P(t₁,…,tₙ); formulas with ¬ ∧ ∨ → ∀ ∃","Quantifiers bind tighter than ∧, ∨, →"],
+["Free and bound","In ∀x φ the occurrences of x in φ are bound; others are free. A sentence has no free variables",""],
+{title:'Quantifier equivalences',list:["¬∀x φ ≡ ∃x ¬φ ; ¬∃x φ ≡ ∀x ¬φ","∀x (φ ∧ ψ) ≡ ∀x φ ∧ ∀x ψ ; ∃x (φ ∨ ψ) ≡ ∃x φ ∨ ∃x ψ","∀x ∀y φ ≡ ∀y ∀x φ ; ∃x ∃y φ ≡ ∃y ∃x φ","∃x ∀y φ ⊨ ∀y ∃x φ, but not conversely","∀x (φ → ψ) ≡ φ → ∀x ψ when x is not free in φ"]},
+{title:'Quantifier rules',tbl:{head:["Rule","Meaning"],rows:[
+["∀e","From ∀x φ infer φ[t/x] for any term t free for x"],
+["∀i","Take a fresh x₀; if you prove φ[x₀/x] in a box, infer ∀x φ"],
+["∃i","From φ[t/x] infer ∃x φ"],
+["∃e","From ∃x φ, open a box with a fresh x₀ and φ[x₀/x]; if it ends in χ (without x₀), infer χ"],
+["=i","⊢ t = t"],
+["=e","From t₁ = t₂ and φ[t₁/x] infer φ[t₂/x]"]]}},
+["Models","A model gives a non-empty domain and interprets each function and predicate symbol","Entailment: M ⊨ φ for every model of the premises"],
+["Translating English","'All S are P': ∀x (S(x) → P(x)). 'Some S is P': ∃x (S(x) ∧ P(x))","Never ∀ with ∧, or ∃ with →"],
+["Decidability","Validity of predicate logic is undecidable (Church and Turing) but semi-decidable",""]
+],tips:["The fresh variable x₀ in ∀i and ∃e must not occur anywhere earlier in the proof.","Check substitution does not capture variables."]},
+
+{id:'lcs-temp',t:'Modal and Temporal Logic (check against your handout)',f:[
+["Kripke model","Set of worlds, an accessibility relation R, and a labelling of atoms per world","Cross-check"],
+["Modal operators","□φ: φ holds in all accessible worlds. ◇φ: φ holds in some accessible world. ◇φ ≡ ¬□¬φ","Cross-check"],
+["LTL operators","X φ (next), F φ (eventually), G φ (always), φ U ψ (until), φ R ψ (release)","Cross-check"],
+["Common LTL patterns","Safety: G ¬bad. Liveness: G (request → F grant). Fairness: G F p","Cross-check"],
+{title:'CTL operators (path quantifier + temporal operator)',tbl:{head:["Operator","Meaning"],rows:[["AX φ / EX φ","φ in all / some next states"],["AF φ / EF φ","On all / some path φ eventually holds"],["AG φ / EG φ","On all / some path φ always holds"],["A[φ U ψ] / E[φ U ψ]","On all / some path φ holds until ψ"]]}},
+["CTL equivalences","AF φ ≡ ¬EG ¬φ ; AG φ ≡ ¬EF ¬φ ; EF φ ≡ E[⊤ U φ] ; AX φ ≡ ¬EX ¬φ","Cross-check"],
+["CTL model checking","Label states bottom-up over subformulas. Cost O(|φ| × (|S| + |R|))","Cross-check"],
+["Reachability fixpoint","EF φ = least Z with Z = φ ∨ EX Z","Cross-check"]
+],tips:["In CTL every temporal operator must be paired with A or E.","Mutual exclusion: AG ¬(crit₁ ∧ crit₂)."]},
+
+{id:'lcs-bdd',t:'Binary Decision Diagrams (check against your handout)',f:[
+["OBDD","Decision tree for a Boolean function with variables tested in a fixed order, sharing nodes","Cross-check"],
+{title:'Reduction rules (give the ROBDD)',list:["Merge all terminal nodes labelled 0, and all labelled 1.","Remove a node whose low and high children are the same node.","Merge two nodes with the same variable and the same low and high children."]},
+["Canonical","For a fixed variable ordering, the ROBDD of a function is unique","Cross-check"],
+["Ordering matters","The same function can have an exponentially larger BDD under a bad ordering",""],
+["Use","Equivalence of two formulas = same ROBDD. Satisfiable ⇔ ROBDD is not the 0 terminal",""]
+],tips:["Draw the full decision tree first, then reduce.","Keep the same variable order for every diagram you compare."]}
+]};
+DATA.dd={name:'Digital Design',code:'CS F215',ch:[
+{id:'dd-num',t:'Number Systems and Codes',f:[
+["Positional value","N = Σ d_{i} × r^{i}","r = base. Fractions use negative powers"],
+["Bits needed","n = ⌈log_{2}(N + 1)⌉ bits to represent 0 to N",""],
+["Unsigned range","0 to 2^{n} − 1",""],
+["Two's complement range","−2^{n−1} to 2^{n−1} − 1",""],
+["Sign-magnitude and one's complement","Both: −(2^{n−1} − 1) to 2^{n−1} − 1, and two zeros",""],
+["Two's complement of x","2^{n} − x ; or invert all bits and add 1",""],
+["Sign extension","Copy the sign bit to the new leading positions","Keeps the value unchanged"],
+["Overflow (signed addition)","Occurs when two numbers of the same sign give a result of the opposite sign","Equivalently carry into MSB ≠ carry out of MSB"],
+["BCD (8421)","Each decimal digit in 4 bits; 1010 to 1111 are invalid",""],
+["Excess-3","BCD + 0011",""],
+["Gray code","g = b ⊕ (b >> 1) ; binary from Gray: b_{i} = b_{i+1} ⊕ g_{i}","Adjacent values differ in one bit"],
+["IEEE 754 single","(−1)^{s} × 1.f × 2^{e − 127} ; 1 sign, 8 exponent, 23 fraction bits",""],
+["IEEE 754 double","(−1)^{s} × 1.f × 2^{e − 1023} ; 1 sign, 11 exponent, 52 fraction bits",""],
+["Parity","Even parity: total number of 1s even. Odd parity: odd",""],
+["Hamming code","r check bits for m data bits: 2^{r} ≥ m + r + 1 ; check bits at positions 1, 2, 4, 8, …","Minimum distance 3 corrects 1 error. Cross-check"],
+["ASCII","'0' = 48, 'A' = 65, 'a' = 97 ; lowercase = uppercase + 32",""]
+],tips:["Write the bit width before doing complement or overflow questions.","Convert hex to binary by groups of 4 bits and octal by groups of 3."]},
+
+{id:'dd-bool',t:'Boolean Algebra and Gates',f:[
+{title:'Laws',tbl:{head:["Law","AND form","OR form"],rows:[
+["Identity","A · 1 = A","A + 0 = A"],
+["Null","A · 0 = 0","A + 1 = 1"],
+["Idempotent","A · A = A","A + A = A"],
+["Complement","A · A' = 0","A + A' = 1"],
+["Involution","(A')' = A",""],
+["Commutative","AB = BA","A + B = B + A"],
+["Distributive","A(B + C) = AB + AC","A + BC = (A + B)(A + C)"],
+["Absorption","A(A + B) = A","A + AB = A"],
+["Redundancy","A(A' + B) = AB","A + A'B = A + B"],
+["De Morgan","(AB)' = A' + B'","(A + B)' = A'B'"],
+["Consensus","(A + B)(A' + C)(B + C) = (A + B)(A' + C)","AB + A'C + BC = AB + A'C"]]}},
+["Duality","Swap AND with OR and 0 with 1 to get the dual identity",""],
+["XOR properties","A ⊕ B = A'B + AB' ; A ⊕ 0 = A ; A ⊕ 1 = A' ; A ⊕ A = 0 ; A ⊕ A' = 1 ; XNOR = (A ⊕ B)'",""],
+["Minterms and maxterms","m_{i}' = M_{i} ; F = Σ m(…) = Π M(rest) ; n variables give 2^{n} minterms",""],
+["Canonical forms","SOP: sum of minterms where F = 1. POS: product of maxterms where F = 0",""],
+["Number of functions","2^{2^{n}} Boolean functions of n variables",""],
+{title:'Universal gates',tbl:{head:["Function","Using NAND only","Using NOR only"],rows:[["NOT A","NAND(A, A)","NOR(A, A)"],["A AND B","NAND(NAND(A,B), NAND(A,B))","NOR(NOR(A,A), NOR(B,B))"],["A OR B","NAND(NAND(A,A), NAND(B,B))","NOR(NOR(A,B), NOR(A,B))"]]}}
+],tips:["Simplify with A + A'B = A + B and consensus before using a K-map.","Bubble pushing: NAND-NAND realises SOP, NOR-NOR realises POS."]},
+
+{id:'dd-min',t:'Minimisation',f:[
+["K-map layout","Rows and columns follow Gray code order: 00, 01, 11, 10","Edges wrap around (a K-map is a torus)"],
+["Grouping rule","Groups of 1, 2, 4, 8, 16 cells (powers of two), rectangular, as large as possible","A group of 2^{k} cells removes k variables"],
+["Prime implicant","A group that cannot be enlarged. Essential: covers a 1 no other prime implicant covers",""],
+["Don't cares","Use X as 1 only if it makes a bigger group. Never need to cover X by itself",""],
+["POS from K-map","Group the 0s, write each group as a sum with inverted literals, and AND them",""],
+["Quine-McCluskey","1) List minterms by number of 1s. 2) Combine pairs differing in one bit. 3) Repeat to get prime implicants. 4) Use the PI chart for a minimal cover","Handles 5 or more variables"],
+["Cost","Count gates and gate inputs (literals) to compare solutions",""],
+["Hazards","Static-1 hazard in SOP removed by adding a consensus term",""]
+],tips:["Try the K-map tool in the Tools tab to check your groups.","Several minimal solutions can be correct. Compare cost, not shape."]},
+
+{id:'dd-comb',t:'Combinational Building Blocks',f:[
+["Half adder","S = A ⊕ B ; C = AB",""],
+["Full adder","S = A ⊕ B ⊕ C_{in} ; C_{out} = AB + C_{in}(A ⊕ B)",""],
+["Half subtractor","D = A ⊕ B ; Borrow = A'B",""],
+["Full subtractor","D = A ⊕ B ⊕ B_{in} ; B_{out} = A'B + (A ⊕ B)'B_{in}",""],
+["Adder-subtractor","B ⊕ M into the adder, with C_{in} = M","M = 0 add, M = 1 subtract (two's complement)"],
+["Carry lookahead","G_{i} = A_{i}B_{i} ; P_{i} = A_{i} ⊕ B_{i} ; C_{i+1} = G_{i} + P_{i}C_{i}","C_{2} = G_{1} + P_{1}G_{0} + P_{1}P_{0}C_{0}"],
+["Ripple carry delay","≈ n × (delay of one carry stage)",""],
+["Multiplexer","2^{n} : 1 MUX has n select lines ; Y = Σ m_{i} I_{i}","Any n-variable function with a 2^{n−1} : 1 MUX using one variable as data"],
+["Demultiplexer","1 input to 2^{n} outputs chosen by n select lines",""],
+["Decoder","n inputs give 2^{n} outputs, each output is a minterm","Implement any function as OR of the needed minterm outputs"],
+["Encoder","2^{n} inputs to n outputs. Priority encoder resolves multiple active inputs",""],
+["Comparator","A = B: XNOR each bit and AND them. A > B: first (most significant) bit where they differ has A = 1",""],
+["BCD adder","Add in binary, if the sum > 9 or carry = 1, add 0110",""],
+["Parity generator","Even parity bit = XOR of all data bits",""]
+],tips:["Write the truth table first, then the K-map, then the circuit.","Check delay by finding the longest path from input to output."]},
+
+{id:'dd-seq',t:'Flip-Flops and Latches',f:[
+["SR flip-flop","Q⁺ = S + R'Q with constraint SR = 0",""],
+["JK flip-flop","Q⁺ = JQ' + K'Q","J = K = 1 toggles"],
+["D flip-flop","Q⁺ = D",""],
+["T flip-flop","Q⁺ = T ⊕ Q","T = 1 toggles"],
+{title:'Excitation tables (Q → Q⁺)',tbl:{head:["Q → Q⁺","S R","J K","D","T"],rows:[["0 → 0","0 X","0 X","0","0"],["0 → 1","1 0","1 X","1","1"],["1 → 0","0 1","X 1","0","1"],["1 → 1","X 0","X 0","1","0"]]}},
+["Latch vs flip-flop","Latch is level-sensitive. Flip-flop changes only on a clock edge",""],
+["Race-around","Level-triggered JK with J = K = 1 toggles repeatedly. Fixed by edge triggering or master-slave",""],
+["Asynchronous inputs","Preset and clear override the clock",""],
+["Converting flip-flops","Write the excitation table of the target, and use the excitation table of the available flip-flop to find its inputs",""]
+],tips:["Use the characteristic equation to analyse a circuit and the excitation table to design one.","Don't-cares (X) in excitation tables help simplification."]},
+
+{id:'dd-count',t:'Registers and Counters',f:[
+["Shift register","Types: SISO, SIPO, PISO, PIPO. n flip-flops store n bits",""],
+["Ring counter","n flip-flops give n states (one-hot)",""],
+["Johnson (twisted ring) counter","n flip-flops give 2n states",""],
+["Asynchronous (ripple) counter","n flip-flops count 2^{n} states (mod 2^{n}). Delay accumulates",""],
+["Mod-N counter","Flip-flops needed = ⌈log_{2}N⌉",""],
+["Frequency division","n-bit counter output: f_{out} = {{f_{clk}||2^{n}}}",""],
+["Synchronous counter design","State table, then excitation table, then K-maps for each flip-flop input",""],
+["Maximum ripple clock","T_{clk} ≥ n × t_{pd} (to settle)",""]
+],tips:["For mod-N ripple counters, reset all flip-flops when the count reaches N.","Unused states in a synchronous counter are don't-cares."]},
+
+{id:'dd-fsm',t:'State Machines and Timing',f:[
+["Moore","Outputs depend only on the present state",""],
+["Mealy","Outputs depend on the present state and the inputs. Usually fewer states",""],
+{title:'FSM design steps',list:["Understand the specification and draw the state diagram.","Build the state table and minimise states.","Assign binary codes to states (⌈log₂ states⌉ flip-flops).","Derive the next-state and output equations with the excitation table.","Simplify, draw the circuit, and check unused states."]},
+["Setup time","Data must be stable for t_{setup} before the clock edge",""],
+["Hold time","Data must stay stable for t_{hold} after the clock edge",""],
+["Maximum clock frequency","T_{clk} ≥ t_{cq} + t_{comb,max} + t_{setup} (+ skew) ; f_{max} = {{1||T_{clk}}}",""],
+["Hold condition","t_{cq} + t_{comb,min} ≥ t_{hold} (+ skew)",""],
+["Sequence detector","Overlapping vs non-overlapping decides the transitions after a match","Draw the diagram for 1011 both ways to practise"]
+],tips:["Mealy outputs change with inputs between clock edges, so draw them on the transition arrows.","Count only the longest path for setup and the shortest path for hold."]},
+
+{id:'dd-mem',t:'Memory and Programmable Logic',f:[
+["Memory capacity","Bits = Number of words × Word width",""],
+["Address lines","n = log_{2}(words)",""],
+["Chips needed","{{Total capacity||Capacity per chip}}","Expand width with parallel chips and depth with a decoder"],
+["ROM","Non-volatile; implements a truth table (2^{n} × m bits for n inputs, m outputs)",""],
+["PLA and PAL","PLA: programmable AND and OR planes. PAL: programmable AND plane, fixed OR plane",""],
+["SRAM vs DRAM","SRAM: flip-flop cell, fast, costly. DRAM: capacitor cell, needs refresh, dense",""],
+["FPGA","Look-up tables (LUTs), flip-flops and programmable routing",""]
+],tips:["Words × width gives capacity. Words alone decide the address bits."]},
+
+{id:'dd-verilog',t:'Verilog Quick Reference',f:[
+{title:'Module template',code:"module and_or (input a, b, c, output y);\n  wire t;\n  assign t = a & b;\n  assign y = t | c;\nendmodule"},
+{title:'Combinational always block',code:"always @(*) begin\n  case (sel)\n    2'b00: y = d0;\n    2'b01: y = d1;\n    2'b10: y = d2;\n    default: y = d3;\n  endcase\nend"},
+{title:'D flip-flop with asynchronous reset',code:"always @(posedge clk or posedge rst) begin\n  if (rst) q <= 1'b0;\n  else     q <= d;\nend"},
+{title:'4-bit counter',code:"module counter (input clk, rst, output reg [3:0] q);\n  always @(posedge clk or posedge rst)\n    if (rst) q <= 4'd0;\n    else     q <= q + 1;\nendmodule"},
+{title:'Simple testbench',code:"module tb;\n  reg a, b; wire y;\n  and_or dut (.a(a), .b(b), .c(1'b0), .y(y));\n  initial begin\n    a = 0; b = 0; #10;\n    a = 1; b = 1; #10;\n    $finish;\n  end\nendmodule"},
+["Blocking and non-blocking","Use = in combinational blocks and <= in clocked (sequential) blocks",""],
+["Literals","4'b1010 is 4 bits binary, 8'hFF is 8 bits hex, 3'd5 is 3 bits decimal",""],
+["Reduction and concatenation","&a, |a, ^a reduce a vector. {a, b} joins bits. {4{a}} repeats a four times",""],
+["Common mistakes","Missing a case default or if-else creates a latch. Do not mix blocking and non-blocking in one block",""]
+],tips:["Cover every branch in combinational always blocks to avoid unintended latches.","Check the Verilog syntax your lab tool expects, since Verilog and SystemVerilog differ."]}
+]};
+DATA.oop={name:'OOP (Java)',code:'CS F213',ch:[
+{id:'oop-core',t:'Core Concepts',f:[
+{title:'Four pillars',tbl:{head:["Pillar","Meaning","Java tool"],rows:[["Encapsulation","Bundle data with the methods that use it and hide the data","private fields, getters and setters"],["Abstraction","Expose what an object does, hide how","abstract classes, interfaces"],["Inheritance","A subclass reuses and extends a superclass","extends, implements"],["Polymorphism","One interface, many behaviours","overloading, overriding, dynamic dispatch"]]}},
+["Class and object","A class is a blueprint. An object is an instance created with `new`",""],
+["Constructors","Same name as class, no return type. A default constructor exists only if you write none","`this(...)` calls another constructor, `super(...)` calls the parent's (must be the first statement)"],
+["static","Belongs to the class, not an object. Static methods cannot use `this` or instance members directly",""],
+["final","final variable: assigned once. final method: cannot be overridden. final class: cannot be extended",""],
+{title:'Access modifiers',tbl:{head:["Modifier","Same class","Same package","Subclass (other package)","Everywhere"],rows:[["private","Yes","No","No","No"],["(default)","Yes","Yes","No","No"],["protected","Yes","Yes","Yes","No"],["public","Yes","Yes","Yes","Yes"]]}},
+["Overloading vs overriding","Overloading: same name, different parameters, decided at compile time. Overriding: same signature in a subclass, decided at run time",""]
+],tips:["`this` is the current object, `super` refers to the parent part.","Return type alone cannot overload a method."]},
+
+{id:'oop-inh',t:'Inheritance and Polymorphism',f:[
+["Single inheritance","A class extends only one class, but may implement many interfaces",""],
+["Constructor chaining","Parent constructor runs first, then the child's",""],
+["Dynamic dispatch","The method called depends on the object's actual type, not the reference type","Applies to instance methods only, not fields or static methods"],
+["Upcasting and downcasting","Upcast (child to parent) is implicit. Downcast needs a cast and can throw ClassCastException","Use `instanceof` to check first"],
+{title:'Abstract class vs interface',tbl:{head:["Feature","Abstract class","Interface"],rows:[["Methods","Abstract and concrete","Abstract, default, static (Java 8+)"],["Fields","Any kind","Only public static final constants"],["Constructors","Yes","No"],["Inheritance","A class extends one","A class implements many"],["Use when","Classes share state and code","Classes share only a contract"]]}},
+["Overriding rules","Same name and parameters, return type same or covariant, access not weaker, no new checked exceptions",""],
+["Method hiding","A static method with the same signature in a subclass hides, not overrides",""],
+["Object class","Every class extends Object: toString(), equals(), hashCode(), getClass()",""]
+],tips:["If the question asks 'what is printed', decide compile-time type vs run-time type separately.","Fields are not polymorphic: they follow the reference type."]},
+
+{id:'oop-java',t:'Java Language Essentials',f:[
+{title:'Primitive types',tbl:{head:["Type","Size","Notes"],rows:[["byte","8 bits","−128 to 127"],["short","16 bits","−32,768 to 32,767"],["int","32 bits","about ±2.1 × 10^{9}"],["long","64 bits","suffix L"],["float","32 bits","suffix f"],["double","64 bits","default for decimals"],["char","16 bits","Unicode, unsigned"],["boolean","true or false",""]]}},
+["== vs equals","== compares primitives or references. equals() compares content when overridden","Strings: use equals()"],
+["String","Immutable. StringBuilder is mutable and faster for repeated concatenation",""],
+["Pass by value","Java always passes a copy. For objects the copy is of the reference",""],
+["Autoboxing","int ↔ Integer conversion is automatic. Integer cache holds −128 to 127 for ==",""],
+["Arrays","Fixed size, zero-indexed, `arr.length` is a field. 2D arrays are arrays of arrays",""],
+["Memory","Stack: method frames and local variables. Heap: objects. Garbage collector frees unreachable objects",""],
+["Integer division","`5 / 2` is 2, `5 % 2` is 1, `5 / 2.0` is 2.5. int overflow wraps around silently",""]
+],tips:["Never compare strings with ==.","Remember char arithmetic: `'a' + 1` is an int (98)."]},
+
+{id:'oop-coll',t:'Collections Framework',f:[
+{title:'Typical time complexity',tbl:{head:["Structure","Access / get","Search","Insert","Delete"],rows:[
+["ArrayList","O(1)","O(n)","O(1) amortised at end, O(n) middle","O(n)"],
+["LinkedList","O(n)","O(n)","O(1) at known node or ends","O(1) at known node"],
+["HashMap / HashSet","O(1) average","O(1) average","O(1) average","O(1) average"],
+["TreeMap / TreeSet","O(log n)","O(log n)","O(log n)","O(log n)"],
+["PriorityQueue","peek O(1)","O(n)","O(log n)","poll O(log n)"],
+["ArrayDeque","ends O(1)","O(n)","O(1) at ends","O(1) at ends"]]}},
+["List, Set, Map","List: ordered, duplicates allowed. Set: no duplicates. Map: key to value, unique keys",""],
+["equals and hashCode contract","If a.equals(b) then a.hashCode() == b.hashCode(). Override both together",""],
+["Ordering","Comparable: natural order via compareTo(). Comparator: custom order via compare()",""],
+["Iteration","Use for-each or Iterator. Modifying a list while iterating throws ConcurrentModificationException",""]
+],tips:["HashMap does not keep order. Use LinkedHashMap for insertion order and TreeMap for sorted order.","Pick the structure by the operation you do most."]},
+
+{id:'oop-exc',t:'Exceptions',f:[
+["Hierarchy","Throwable → Error and Exception. Exception → RuntimeException (unchecked) and others (checked)",""],
+["Checked vs unchecked","Checked must be caught or declared with throws (e.g. IOException). Unchecked need not be (e.g. NullPointerException)",""],
+["throw vs throws","`throw` raises an exception object. `throws` declares what a method may raise",""],
+["try-catch-finally","finally runs whether or not an exception occurs (except System.exit). Catch more specific exceptions first",""],
+{title:'Custom exception',code:"class InsufficientFundsException extends Exception {\n    public InsufficientFundsException(String msg) {\n        super(msg);\n    }\n}"},
+{title:'try-with-resources',code:"try (BufferedReader br = new BufferedReader(new FileReader(\"in.txt\"))) {\n    String line = br.readLine();\n} catch (IOException e) {\n    e.printStackTrace();\n}"}
+],tips:["The first matching catch block is used, so order from subclass to superclass.","A return in finally overrides a return in try."]},
+
+{id:'oop-design',t:'Design Principles and Patterns',f:[
+{title:'SOLID',tbl:{head:["Letter","Principle","In one line"],rows:[["S","Single Responsibility","A class has one reason to change"],["O","Open/Closed","Open for extension, closed for modification"],["L","Liskov Substitution","Subclass objects can replace superclass objects safely"],["I","Interface Segregation","Many small interfaces beat one large one"],["D","Dependency Inversion","Depend on abstractions, not concrete classes"]]}},
+{title:'Common patterns',tbl:{head:["Pattern","Intent","Example"],rows:[["Singleton","One instance and a global access point","Configuration, logger"],["Factory","Create objects without naming the concrete class","Shape factory"],["Builder","Build complex objects step by step","StringBuilder, query builders"],["Observer","Notify dependents when state changes","Event listeners"],["Strategy","Swap algorithms at run time","Sorting by different comparators"],["Decorator","Add behaviour by wrapping","Java I/O streams"],["Adapter","Make incompatible interfaces work together","Legacy API wrapper"]]}},
+{title:'UML relationships',tbl:{head:["Relationship","Meaning","Example"],rows:[["Association","Uses or knows","Teacher teaches Student"],["Aggregation","Has-a, parts can live alone","Department has Teachers"],["Composition","Owns-a, parts die with the whole","House has Rooms"],["Inheritance","Is-a","Dog is an Animal"],["Realisation","Class implements an interface","ArrayList implements List"],["Dependency","Temporary use","Method parameter"]]}},
+["Coupling and cohesion","Aim for low coupling between classes and high cohesion inside a class",""],
+["Composition over inheritance","Prefer has-a to is-a when you only need to reuse behaviour",""]
+],tips:["Name the pattern and then say which problem it solves.","Draw UML with the right arrow heads, since marks depend on them."]},
+
+{id:'oop-code',t:'Code Snippets',f:[
+{title:'Class skeleton',code:"public class Student {\n    private String name;\n    private int age;\n\n    public Student(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n\n    public String getName() { return name; }\n    public void setAge(int age) { this.age = age; }\n\n    @Override\n    public String toString() { return name + \" (\" + age + \")\"; }\n}"},
+{title:'Interface, abstract class and polymorphism',code:"interface Shape { double area(); }\n\nabstract class Base implements Shape {\n    public String describe() { return \"Area = \" + area(); }\n}\n\nclass Circle extends Base {\n    private final double r;\n    Circle(double r) { this.r = r; }\n    public double area() { return Math.PI * r * r; }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Shape s = new Circle(2);\n        System.out.println(s.area());\n    }\n}"},
+{title:'equals and hashCode',code:"@Override\npublic boolean equals(Object o) {\n    if (this == o) return true;\n    if (!(o instanceof Student)) return false;\n    Student s = (Student) o;\n    return age == s.age && name.equals(s.name);\n}\n\n@Override\npublic int hashCode() {\n    return java.util.Objects.hash(name, age);\n}"},
+{title:'Comparable and Comparator',code:"class Student implements Comparable<Student> {\n    public int compareTo(Student o) { return Integer.compare(age, o.age); }\n}\n\nlist.sort(Comparator.comparing(Student::getName));"},
+{title:'Generic method',code:"public static <T extends Comparable<T>> T max(T a, T b) {\n    return a.compareTo(b) >= 0 ? a : b;\n}"},
+{title:'Lambdas and streams',code:"List<Integer> evens = nums.stream()\n    .filter(n -> n % 2 == 0)\n    .map(n -> n * n)\n    .collect(java.util.stream.Collectors.toList());"},
+{title:'Singleton',code:"public class Config {\n    private static final Config INSTANCE = new Config();\n    private Config() {}\n    public static Config getInstance() { return INSTANCE; }\n}"}
+],tips:["Check which language version and style your professor expects, since examples use Java 8 or later."]}
+]};
+
+DATA.m3={name:'Maths 3',code:'MATH F211',ch:[
+{id:'m3-wait',t:'Maths 3: waiting for the course handout',f:[
+{title:'Add this section',list:["Send the MATH F211 course handout (topics, textbook, evaluation scheme).","The formula cards will then be written to match exactly what your professor covers.","Until then, use the Dashboard marks tracker and the Tools tab for your other courses."]}
+],tips:[]}
+]};
+
+const $=s=>document.querySelector(s);
+const ORDER=['ds','lcs','dd','oop','m3'];
+let view='dash', cur='ds', q='', onlyStars=false;
+
+/* ---------- storage ---------- */
+let S={};
+try{S=JSON.parse(localStorage.getItem('hub-data')||'{}')||{};}catch(e){S={};}
+function save(){try{localStorage.setItem('hub-data',JSON.stringify(S));}catch(e){}}
+let stars=new Set(); try{stars=new Set(JSON.parse(localStorage.getItem('hub-stars')||'[]'));}catch(e){}
+function saveStars(){try{localStorage.setItem('hub-stars',JSON.stringify([...stars]));}catch(e){}}
+
+const COURSE_LIST=[['m3','Maths 3 (F211)'],['oop','Object Oriented Programming (CS F213)'],['lcs','Logic in Computer Science (CS F214)'],['dd','Digital Design (CS F215)'],['ds','Discrete Structures for CS (CS F222)']];
+S.scale=S.scale||{'A':10,'A-':9,'B':8,'B-':7,'C':6,'C-':5,'D':4,'E':2};
+S.courses=S.courses||COURSE_LIST.map(c=>({k:c[0],n:c[1],u:3,g:''}));
+S.marks=S.marks||{};
+COURSE_LIST.forEach(c=>{if(!S.marks[c[0]])S.marks[c[0]]=[{n:'Quizzes',w:15,got:'',max:100},{n:'Labs / assignments',w:15,got:'',max:100},{n:'Mid-semester',w:30,got:'',max:100},{n:'Comprehensive',w:40,got:'',max:100}];});
+S.markCourse=S.markCourse||'m3';
+S.target=S.target==null?80:S.target;
+S.events=S.events||[];
+S.att=S.att||{}; S.attT=S.attT==null?75:S.attT;
+
+/* ---------- text formatting ---------- */
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmtPlain(s){
+  s=esc(s);
+  let prev;
+  do{prev=s;s=s.replace(/\^\{([^{}]*)\}/g,'<sup>$1</sup>').replace(/_\{([^{}]*)\}/g,'<sub>$1</sub>');}while(s!==prev);
+  s=s.replace(/_(\d+)/g,'<sub>$1</sub>');
+  s=s.replace(/√⟨(.+?)⟩/g,'<span class="rad">√<span class="ov">$1</span></span>');
+  s=s.replace(/\{\{(.+?)\|\|(.+?)\}\}/g,'<span class="fr"><span class="nu">$1</span><span class="de">$2</span></span>');
+  return s;
+}
+function fmt(s){
+  s=String(s);
+  if(s.indexOf('`')<0)return fmtPlain(s);
+  return s.split('`').map((seg,i)=>i%2?'<code>'+esc(seg)+'</code>':fmtPlain(seg)).join('');
+}
+
+/* ---------- handbooks ---------- */
+function countCards(c){let n=0;c.ch.forEach(x=>n+=x.f.length);return n;}
+function cardHTML(e,id){
+  const star='<button class="star" aria-pressed="false" aria-label="Star this card" title="Star this card">☆</button>';
+  if(Array.isArray(e)){
+    const [label,expr,note]=e;
+    const badge=(note&&/Cross-check/.test(note))?'<span class="badge">Cross-check</span>':'';
+    let cn=note?note.replace(/\.?\s*Cross-check\.?$/,'').replace(/^Cross-check\.?\s*/,'').replace(/\.\s*Cross-check\.\s*/,'. '):'';
+    return `<article class="card" data-id="${id}"><div class="clabel">${fmt(label)}${badge}</div><div class="formula">${fmt(expr)}</div>${cn?`<div class="cnote">${fmt(cn)}</div>`:''}${star}</article>`;
+  }
+  if(e.tbl){
+    const h='<tr>'+e.tbl.head.map(x=>`<th>${fmt(x)}</th>`).join('')+'</tr>';
+    const r=e.tbl.rows.map(row=>'<tr>'+row.map(x=>`<td>${fmt(x)}</td>`).join('')+'</tr>').join('');
+    return `<article class="card wide" data-id="${id}"><div class="clabel">${fmt(e.title||'')}</div><div class="tw"><table><thead>${h}</thead><tbody>${r}</tbody></table></div>${star}</article>`;
+  }
+  if(e.list){
+    return `<article class="card wide" data-id="${id}"><div class="clabel">${fmt(e.title||'')}</div><ul>${e.list.map(x=>`<li>${fmt(x)}</li>`).join('')}</ul>${star}</article>`;
+  }
+  if(e.code){
+    return `<article class="card wide" data-id="${id}"><div class="clabel">${fmt(e.title||'')}</div><pre><code>${esc(e.code)}</code></pre><button class="copy" aria-label="Copy code">Copy</button>${star}</article>`;
+  }
+  return '';
+}
+function buildHand(){
+  let html='';
+  ORDER.forEach(k=>{
+    const C=DATA[k];
+    html+=`<section class="course" data-c="${k}"><h2 class="course-title" hidden>${esc(C.name)} · ${esc(C.code)}</h2>`;
+    C.ch.forEach(ch=>{
+      html+=`<section class="chap" id="${ch.id}"><div class="chead"><h2>${fmt(ch.t)}</h2><span class="ccount">${ch.f.length} ${ch.f.length===1?'card':'cards'}</span></div><div class="grid">`;
+      ch.f.forEach((e,i)=>{html+=cardHTML(e,`${ch.id}-${i}`);});
+      html+='</div>';
+      if(ch.tips&&ch.tips.length)html+=`<details class="traps"><summary>Exam traps</summary><ul>${ch.tips.map(t=>`<li>${fmt(t)}</li>`).join('')}</ul></details>`;
+      html+='</section>';
+    });
+    html+='</section>';
+  });
+  html+='<div class="empty" id="empty" hidden></div>';
+  $('#main').innerHTML=html;
+  $('#main').querySelectorAll('.card').forEach(c=>{
+    c.dataset.text=c.textContent.toLowerCase();
+    if(stars.has(c.dataset.id)){const b=c.querySelector('.star');b.setAttribute('aria-pressed','true');b.textContent='★';}
+  });
+}
+function buildToc(){$('#toc').innerHTML=DATA[cur].ch.map(c=>`<a href="#${c.id}">${fmt(c.t)}</a>`).join('');}
+
+function buildTabs(){
+  const labels={dash:'Dashboard',hand:'Handbooks',tools:'Tools'};
+  $('#vtabs').innerHTML=['dash','hand','tools'].map(v=>`<button class="tab" role="tab" data-v="${v}">${labels[v]}</button>`).join('');
+  $('#ctabs').innerHTML=ORDER.map(k=>`<button class="tab" role="tab" data-s="${k}">${esc(DATA[k].name)}<small>${countCards(DATA[k])}</small></button>`).join('');
+}
+
+function apply(){
+  const searching=q.length>0||onlyStars;
+  $('#view-dash').hidden=view!=='dash';
+  $('#view-hand').hidden=view!=='hand';
+  $('#view-tools').hidden=view!=='tools';
+  $('#ctabs').hidden=!(view==='hand'&&!searching);
+  document.body.dataset.sub=view==='hand'?cur:view;
+  document.querySelectorAll('.tab[data-v]').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.v===view)));
+  document.querySelectorAll('.tab[data-s]').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.s===cur)));
+  $('#starBtn').setAttribute('aria-pressed',String(onlyStars));
+  $('#starCount').textContent=stars.size;
+  if(view!=='hand')return;
+  let total=0;
+  document.querySelectorAll('.course').forEach(sec=>{
+    sec.hidden=searching?false:sec.dataset.c!==cur;
+    let st=0;
+    sec.querySelectorAll('.chap').forEach(ch=>{
+      let vis=0;
+      ch.querySelectorAll('.card').forEach(c=>{
+        const ok=(!q||c.dataset.text.includes(q))&&(!onlyStars||stars.has(c.dataset.id));
+        c.hidden=!ok; if(ok)vis++;
+      });
+      const tr=ch.querySelector('.traps'); if(tr)tr.hidden=searching;
+      ch.hidden=vis===0; st+=vis;
+    });
+    const t=sec.querySelector('.course-title'); if(t)t.hidden=!(searching&&st>0);
+    total+=st;
+  });
+  const em=$('#empty'); em.hidden=total!==0;
+  if(total===0)em.textContent=onlyStars&&!q?'No starred cards yet. Tap ☆ on any card to add it here.':'No match found. Try a shorter word.';
+  $('#toc').hidden=searching;
+  if(!searching)buildToc();
+}
+function setView(v){view=v;apply();window.scrollTo({top:0});}
+
+/* ---------- dashboard ---------- */
+const letters=()=>Object.keys(S.scale);
+function gpaHTML(){
+  const L=letters();
+  return `<section class="panel"><h2>CGPA / SGPA calculator</h2>
+  <details class="mini"><summary>Grade scale (editable)</summary><div class="scale">${L.map(l=>`<label>${esc(l)}<input class="in" type="number" step="0.5" min="0" max="10" data-scale="${esc(l)}" value="${S.scale[l]}"></label>`).join('')}</div></details>
+  <div class="tw"><table class="form"><thead><tr><th>Course</th><th>Units</th><th>Grade</th></tr></thead><tbody>
+  ${S.courses.map((c,i)=>`<tr><td><input class="in" data-ci="${i}" data-f="n" value="${esc(c.n)}" aria-label="Course name"></td><td><input class="in sm" type="number" min="0" step="1" data-ci="${i}" data-f="u" value="${c.u}" aria-label="Units"></td><td><select class="in" data-ci="${i}" data-f="g" aria-label="Grade"><option value="">–</option>${L.map(l=>`<option ${c.g===l?'selected':''}>${esc(l)}</option>`).join('')}</select></td></tr>`).join('')}
+  </tbody></table></div>
+  <p class="mute">Edit units to match your handout (they are set to 3 for now).</p>
+  <div class="row"><label>CGPA before this semester<input class="in num" id="prevC" type="number" step="0.01" value="${S.prevC==null?'':esc(S.prevC)}"></label><label>Units completed before<input class="in num" id="prevU" type="number" value="${S.prevU==null?'':esc(S.prevU)}"></label></div>
+  <div class="result" id="gpaOut"></div></section>`;
+}
+function calcGpa(){
+  let pts=0,u=0;
+  S.courses.forEach(c=>{const gp=S.scale[c.g],un=Number(c.u);if(c.g&&gp!=null&&un>0){pts+=gp*un;u+=un;}});
+  const pc=parseFloat(S.prevC),pu=parseFloat(S.prevU);
+  let h;
+  if(!u)h='Pick grades to see your SGPA.';
+  else{
+    h=`SGPA: <b>${(pts/u).toFixed(2)}</b> <span class="mute">(${u} units graded)</span>`;
+    if(!isNaN(pc)&&!isNaN(pu)&&pu>=0)h+=`<br>New CGPA: <b>${((pc*pu+pts)/(pu+u)).toFixed(2)}</b>`;
+  }
+  $('#gpaOut').innerHTML=h;
+}
+
+function marksHTML(){
+  return `<section class="panel"><h2>Marks tracker</h2>
+  <div class="row"><label>Course<select class="in" id="mkCourse">${COURSE_LIST.map(c=>`<option value="${c[0]}" ${S.markCourse===c[0]?'selected':''}>${esc(c[1])}</option>`).join('')}</select></label>
+  <label>Target total (%)<input class="in num" id="mkTarget" type="number" min="0" max="100" value="${S.target}"></label></div>
+  <div class="tw"><table class="form"><thead><tr><th>Component</th><th>Weight</th><th>Marks</th><th>Out of</th><th></th></tr></thead><tbody id="mkRows"></tbody></table></div>
+  <button class="btn" id="mkAdd">+ Add component</button>
+  <p class="mute">Weights are placeholders. Change them to the evaluation scheme in the course handout.</p>
+  <div class="result" id="mkOut"></div></section>`;
+}
+function renderMarkRows(){
+  const rows=S.marks[S.markCourse];
+  $('#mkRows').innerHTML=rows.map((r,i)=>`<tr><td><input class="in" data-mi="${i}" data-mf="n" value="${esc(r.n)}" aria-label="Component"></td><td><input class="in sm" type="number" min="0" data-mi="${i}" data-mf="w" value="${esc(r.w)}" aria-label="Weight"></td><td><input class="in sm" type="number" min="0" data-mi="${i}" data-mf="got" value="${esc(r.got)}" aria-label="Marks obtained"></td><td><input class="in sm" type="number" min="1" data-mi="${i}" data-mf="max" value="${esc(r.max)}" aria-label="Maximum marks"></td><td><button class="x" data-mdel="${i}" aria-label="Remove component">✕</button></td></tr>`).join('');
+  calcMarks();
+}
+function calcMarks(){
+  const rows=S.marks[S.markCourse];
+  let totW=0,doneW=0,earned=0;
+  rows.forEach(r=>{
+    const w=parseFloat(r.w)||0; totW+=w;
+    const g=parseFloat(r.got),m=parseFloat(r.max);
+    if(r.got!==''&&!isNaN(g)&&m>0){doneW+=w;earned+=w*g/m;}
+  });
+  const tgt=parseFloat(S.target);
+  let h='';
+  if(!totW){h='Add components with weights.';}
+  else{
+    h=`Earned so far: <b>${earned.toFixed(1)}</b> out of ${totW} <span class="mute">(weight completed: ${doneW})</span>`;
+    if(doneW>0)h+=`<br>Average on completed work: <b>${(earned/doneW*100).toFixed(1)}%</b>`;
+    if(!isNaN(tgt)){
+      const need=tgt/100*totW,rem=totW-doneW;
+      if(rem<=0)h+=`<br>Final total: <b>${(earned/totW*100).toFixed(1)}%</b>`;
+      else{
+        const req=(need-earned)/rem*100;
+        if(req<=0)h+=`<br>Target of ${tgt}% is already secured.`;
+        else if(req>100)h+=`<br>Target of ${tgt}% is out of reach: it would need ${req.toFixed(0)}% on the remaining ${rem} weight.`;
+        else h+=`<br>For ${tgt}% overall you need about <b>${req.toFixed(1)}%</b> on the remaining ${rem} weight.`;
+      }
+    }
+    h+=`<br><span class="mute">Grades are relative, so use this as a guide.</span>`;
+  }
+  $('#mkOut').innerHTML=h;
+}
+
+function eventsHTML(){
+  return `<section class="panel"><h2>Exams and deadlines</h2>
+  <div class="row"><label style="flex:1;min-width:10rem">What<input class="in" id="evT" placeholder="e.g. DD quiz 2"></label><label>When<input class="in date" id="evD" type="date"></label><button class="btn" id="evAdd">Add</button></div>
+  <div id="evList"></div></section>`;
+}
+function daysLeft(d){
+  const t=new Date();t.setHours(0,0,0,0);
+  const x=new Date(d+'T00:00:00');
+  return Math.round((x-t)/86400000);
+}
+function renderEvents(){
+  const ev=S.events.map((e,i)=>({...e,i})).sort((a,b)=>a.d<b.d?-1:1);
+  if(!ev.length){$('#evList').innerHTML='<p class="mute">Nothing added yet.</p>';return;}
+  $('#evList').innerHTML=ev.map(e=>{
+    const n=daysLeft(e.d);
+    const lab=n<0?`${-n} day${n===-1?'':'s'} ago`:n===0?'today':n===1?'tomorrow':`in ${n} days`;
+    return `<div class="ev ${n<0?'past':''}"><span>${esc(e.t)} <span class="mute">· ${esc(e.d)}</span></span><span><b>${lab}</b><button class="x" data-edel="${e.i}" aria-label="Remove">✕</button></span></div>`;
+  }).join('');
+}
+
+function attHTML(){
+  return `<section class="panel"><h2>Attendance (optional)</h2>
+  <details class="mini"><summary>Open the attendance tracker</summary>
+  <div class="row"><label>Minimum required (%)<input class="in num" id="attT" type="number" min="0" max="100" value="${S.attT}"></label></div>
+  <div class="tw"><table class="form"><thead><tr><th>Course</th><th>Attended</th><th>Held</th><th></th></tr></thead><tbody>
+  ${COURSE_LIST.map(c=>{const a=S.att[c[0]]||{a:'',h:''};return `<tr><td>${esc(c[1])}</td><td><input class="in sm" type="number" min="0" data-ak="${c[0]}" data-af="a" value="${esc(a.a)}" aria-label="Attended"></td><td><input class="in sm" type="number" min="0" data-ak="${c[0]}" data-af="h" value="${esc(a.h)}" aria-label="Held"></td><td id="att-${c[0]}" class="mute"></td></tr>`;}).join('')}
+  </tbody></table></div>
+  <p class="mute">Check the real rule with your department. Labs and quizzes usually count towards your grade.</p></details></section>`;
+}
+function calcAtt(){
+  const t=(parseFloat(S.attT)||0)/100;
+  COURSE_LIST.forEach(c=>{
+    const a=S.att[c[0]]||{},A=parseFloat(a.a),H=parseFloat(a.h),el=$('#att-'+c[0]);
+    if(!el)return;
+    if(isNaN(A)||isNaN(H)||H<=0){el.textContent='';return;}
+    const pct=A/H*100;
+    let msg=`${pct.toFixed(0)}%`;
+    if(t>0){
+      if(pct/100>=t){const m=Math.floor(A/t-H+1e-9);msg+=` · can miss ${Math.max(0,m)} more`;}
+      else{const k=Math.ceil((t*H-A)/(1-t)-1e-9);msg+=` · attend next ${k}`;}
+    }
+    el.textContent=msg;
+  });
+}
+
+function buildDash(){
+  $('#view-dash').innerHTML=`<div class="panels">${gpaHTML()}${marksHTML()}${eventsHTML()}${attHTML()}</div>`;
+  calcGpa(); renderMarkRows(); renderEvents(); calcAtt();
+}
+function dashInput(e){
+  const t=e.target;
+  if(t.dataset.scale!==undefined){const v=parseFloat(t.value);if(!isNaN(v))S.scale[t.dataset.scale]=v;save();calcGpa();return;}
+  if(t.dataset.ci!==undefined){const c=S.courses[+t.dataset.ci];c[t.dataset.f]=t.dataset.f==='u'?(t.value===''?0:parseFloat(t.value)):t.value;save();calcGpa();return;}
+  if(t.id==='prevC'){S.prevC=t.value;save();calcGpa();return;}
+  if(t.id==='prevU'){S.prevU=t.value;save();calcGpa();return;}
+  if(t.id==='mkCourse'){S.markCourse=t.value;save();renderMarkRows();return;}
+  if(t.id==='mkTarget'){S.target=t.value;save();calcMarks();return;}
+  if(t.dataset.mi!==undefined){S.marks[S.markCourse][+t.dataset.mi][t.dataset.mf]=t.value;save();calcMarks();return;}
+  if(t.id==='attT'){S.attT=t.value;save();calcAtt();return;}
+  if(t.dataset.ak!==undefined){S.att[t.dataset.ak]=S.att[t.dataset.ak]||{a:'',h:''};S.att[t.dataset.ak][t.dataset.af]=t.value;save();calcAtt();return;}
+}
+function dashClick(e){
+  const b=e.target.closest('button'); if(!b)return;
+  if(b.id==='mkAdd'){S.marks[S.markCourse].push({n:'New component',w:0,got:'',max:100});save();renderMarkRows();return;}
+  if(b.dataset.mdel!==undefined){S.marks[S.markCourse].splice(+b.dataset.mdel,1);save();renderMarkRows();return;}
+  if(b.id==='evAdd'){const t=$('#evT').value.trim(),d=$('#evD').value;if(t&&d){S.events.push({t,d});save();$('#evT').value='';renderEvents();}return;}
+  if(b.dataset.edel!==undefined){S.events.splice(+b.dataset.edel,1);save();renderEvents();return;}
+}
+
+/* ---------- logic tool ---------- */
+function tokenize(s){
+  const t=[];let i=0;
+  while(i<s.length){
+    const ch=s[i];
+    if(/\s/.test(ch)){i++;continue;}
+    if(s.startsWith('<->',i)||s.startsWith('<=>',i)){t.push({k:'IFF'});i+=3;continue;}
+    if(s.startsWith('->',i)||s.startsWith('=>',i)){t.push({k:'IMP'});i+=2;continue;}
+    if('!~¬'.includes(ch)){t.push({k:'NOT'});i++;continue;}
+    if('&∧*.·'.includes(ch)){t.push({k:'AND'});i++;continue;}
+    if('|∨+'.includes(ch)){t.push({k:'OR'});i++;continue;}
+    if('^⊕'.includes(ch)){t.push({k:'XOR'});i++;continue;}
+    if(ch==='→'){t.push({k:'IMP'});i++;continue;}
+    if(ch==='↔'){t.push({k:'IFF'});i++;continue;}
+    if(ch==='('){t.push({k:'LP'});i++;continue;}
+    if(ch===')'){t.push({k:'RP'});i++;continue;}
+    if(ch==="'"||ch==='’'){t.push({k:'PRIME'});i++;continue;}
+    if(ch==='0'||ch==='1'){t.push({k:'CONST',v:+ch});i++;continue;}
+    if(/[A-Za-z]/.test(ch)){t.push({k:'VAR',v:ch.toUpperCase()});i++;continue;}
+    throw new Error('Unexpected symbol "'+ch+'"');
+  }
+  return t;
+}
+function parseExpr(str){
+  const tk=tokenize(str);let p=0;
+  const peek=()=>tk[p],next=()=>tk[p++];
+  const starts=t=>t&&(t.k==='VAR'||t.k==='CONST'||t.k==='LP'||t.k==='NOT');
+  function iff(){let l=imp();while(peek()&&peek().k==='IFF'){next();l={t:'iff',l,r:imp()};}return l;}
+  function imp(){const l=or();if(peek()&&peek().k==='IMP'){next();return {t:'imp',l,r:imp()};}return l;}
+  function or(){let l=xor();while(peek()&&peek().k==='OR'){next();l={t:'or',l,r:xor()};}return l;}
+  function xor(){let l=and();while(peek()&&peek().k==='XOR'){next();l={t:'xor',l,r:and()};}return l;}
+  function and(){let l=un();while(peek()&&(peek().k==='AND'||starts(peek()))){if(peek().k==='AND')next();l={t:'and',l,r:un()};}return l;}
+  function un(){if(peek()&&peek().k==='NOT'){next();return {t:'not',a:un()};}return post();}
+  function post(){let a=atom();while(peek()&&peek().k==='PRIME'){next();a={t:'not',a};}return a;}
+  function atom(){
+    const t=next();
+    if(!t)throw new Error('The expression ends too early');
+    if(t.k==='VAR')return {t:'var',n:t.v};
+    if(t.k==='CONST')return {t:'const',v:t.v};
+    if(t.k==='LP'){const e=iff();const r=next();if(!r||r.k!=='RP')throw new Error('Missing a closing bracket');return e;}
+    throw new Error('Unexpected operator');
+  }
+  if(!tk.length)throw new Error('Type an expression');
+  const e=iff();
+  if(p<tk.length)throw new Error('Unexpected symbol after the expression');
+  return e;
+}
+function varsOf(ast,set){
+  set=set||new Set();
+  if(ast.t==='var')set.add(ast.n);
+  else if(ast.t==='const'){}
+  else if(ast.t==='not')varsOf(ast.a,set);
+  else{varsOf(ast.l,set);varsOf(ast.r,set);}
+  return set;
+}
+function ev(a,env){
+  switch(a.t){
+    case 'var':return env[a.n];
+    case 'const':return a.v;
+    case 'not':return ev(a.a,env)?0:1;
+    case 'and':return ev(a.l,env)&ev(a.r,env);
+    case 'or':return ev(a.l,env)|ev(a.r,env);
+    case 'xor':return ev(a.l,env)^ev(a.r,env);
+    case 'imp':return (!ev(a.l,env)||ev(a.r,env))?1:0;
+    case 'iff':return ev(a.l,env)===ev(a.r,env)?1:0;
+  }
+}
+function vectorOf(ast,names){
+  const n=names.length,v=[];
+  for(let i=0;i<(1<<n);i++){
+    const env={};names.forEach((nm,j)=>env[nm]=(i>>(n-1-j))&1);
+    v.push(ev(ast,env));
+  }
+  return v;
+}
+function primeImplicants(n,mins){
+  let cur=new Map();
+  mins.forEach(x=>cur.set(x+',0',{v:x,m:0}));
+  const primes=[];
+  while(cur.size){
+    const arr=[...cur.values()],used=new Set(),next=new Map();
+    for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++){
+      const a=arr[i],b=arr[j];
+      if(a.m!==b.m)continue;
+      const d=a.v^b.v;
+      if(d&&(d&(d-1))===0){const nv={v:a.v&~d,m:a.m|d};next.set(nv.v+','+nv.m,nv);used.add(i);used.add(j);}
+    }
+    arr.forEach((a,i)=>{if(!used.has(i))primes.push(a);});
+    cur=next;
+  }
+  return primes;
+}
+const pop=x=>{let c=0;while(x){c+=x&1;x>>=1;}return c;};
+function minCover(n,primes,ones){
+  const covers=primes.map(p=>ones.filter(x=>(x&~p.m)===p.v));
+  const chosen=new Set(),remaining=new Set(ones);
+  ones.forEach(x=>{
+    const c=[];primes.forEach((p,i)=>{if((x&~p.m)===p.v)c.push(i);});
+    if(c.length===1)chosen.add(c[0]);
+  });
+  chosen.forEach(i=>covers[i].forEach(x=>remaining.delete(x)));
+  if(remaining.size){
+    const rem=[...remaining];
+    const cand=[];primes.forEach((p,i)=>{if(!chosen.has(i)&&covers[i].some(x=>remaining.has(x)))cand.push(i);});
+    const lits=i=>n-pop(primes[i].m);
+    if(cand.length<=14){
+      let best=null,bc=1e9,bl=1e9;
+      for(let mask=1;mask<(1<<cand.length);mask++){
+        const sel=[];for(let b=0;b<cand.length;b++)if(mask&(1<<b))sel.push(cand[b]);
+        if(!rem.every(x=>sel.some(i=>(x&~primes[i].m)===primes[i].v)))continue;
+        const l=sel.reduce((s,i)=>s+lits(i),0);
+        if(sel.length<bc||(sel.length===bc&&l<bl)){best=sel;bc=sel.length;bl=l;}
+      }
+      (best||[]).forEach(i=>chosen.add(i));
+    }else{
+      const left=new Set(rem);
+      while(left.size){
+        let bi=-1,bn=-1;
+        cand.forEach(i=>{const k=covers[i].filter(x=>left.has(x)).length;if(k>bn){bn=k;bi=i;}});
+        chosen.add(bi);covers[bi].forEach(x=>left.delete(x));
+      }
+    }
+  }
+  return [...chosen];
+}
+function termSOP(n,names,p){
+  let s='';
+  for(let j=0;j<n;j++){const b=1<<(n-1-j);if(p.m&b)continue;s+=names[j]+((p.v&b)?'':"'");}
+  return s||'1';
+}
+function termPOS(n,names,p){
+  const l=[];
+  for(let j=0;j<n;j++){const b=1<<(n-1-j);if(p.m&b)continue;l.push(names[j]+((p.v&b)?"'":''));}
+  return l.length>1?'('+l.join(' + ')+')':(l[0]||'0');
+}
+function minimize(n,names,ones,dcs,mode){
+  const total=1<<n;
+  if(!ones.length)return {text:mode==='sop'?'0':'1',chosen:[]};
+  if(ones.length+dcs.length===total)return {text:mode==='sop'?'1':'0',chosen:[{v:0,m:total-1}]};
+  const primes=primeImplicants(n,[...ones,...dcs]);
+  const chosen=minCover(n,primes,ones).map(i=>primes[i]);
+  const text=mode==='sop'?chosen.map(p=>termSOP(n,names,p)).join(' + '):chosen.map(p=>termPOS(n,names,p)).join('');
+  return {text,chosen};
+}
+const GC=['#E4572E','#17A398','#F5B700','#6A4C93','#2E86AB','#D81E5B'];
+function kmapHTML(n,names,v,chosen){
+  const cfg={2:{rv:[0,1],rb:1,cv:[0,1],cb:1},3:{rv:[0,1],rb:1,cv:[0,1,3,2],cb:2},4:{rv:[0,1,3,2],rb:2,cv:[0,1,3,2],cb:2}}[n];
+  const bits=(x,w)=>x.toString(2).padStart(w,'0');
+  let h=`<div class="kmap" style="grid-template-columns:repeat(${cfg.cv.length+1},auto)"><div class="h">${names.slice(0,cfg.rb).join('')}\\${names.slice(cfg.rb).join('')}</div>`;
+  cfg.cv.forEach(c=>h+=`<div class="h">${bits(c,cfg.cb)}</div>`);
+  cfg.rv.forEach(r=>{
+    h+=`<div class="h">${bits(r,cfg.rb)}</div>`;
+    cfg.cv.forEach(c=>{
+      const idx=(r<<cfg.cb)|c;
+      const val=v[idx]===2?'X':v[idx];
+      const dots=chosen.map((p,gi)=>((idx&~p.m)===p.v)?`<i style="background:${GC[gi%GC.length]}"></i>`:'').join('');
+      h+=`<div title="m${idx}"><span>${val}</span><span class="dots">${dots}</span></div>`;
+    });
+  });
+  h+='</div>';
+  return h;
+}
+function logicReport(n,names,v){
+  const total=1<<n,ones=[],zeros=[],dcs=[];
+  v.forEach((x,i)=>{if(x===1)ones.push(i);else if(x===0)zeros.push(i);else dcs.push(i);});
+  let h='';
+  if(!dcs.length){
+    h+=`<div class="result">${ones.length===total?'Tautology (always 1)':ones.length===0?'Contradiction (always 0)':'Contingent: satisfiable but not a tautology'} · ${ones.length} of ${total} rows are 1</div>`;
+  }
+  h+=`<h3>Truth table</h3><div class="tw"><table class="tt"><thead><tr>${names.map(x=>`<th>${x}</th>`).join('')}<th>F</th></tr></thead><tbody>`;
+  for(let i=0;i<total;i++){
+    h+=`<tr class="${v[i]===1?'hit':''}">${names.map((x,j)=>`<td>${(i>>(n-1-j))&1}</td>`).join('')}<td>${v[i]===2?'X':v[i]}</td></tr>`;
+  }
+  h+='</tbody></table></div>';
+  h+=`<h3>Canonical forms</h3><p class="big">F = Σm(${ones.join(', ')||'none'})${dcs.length?' + d('+dcs.join(', ')+')':''}<br>F = ΠM(${zeros.join(', ')||'none'})${dcs.length?' · d('+dcs.join(', ')+')':''}</p>`;
+  const sop=minimize(n,names,ones,dcs,'sop'),pos=minimize(n,names,zeros,dcs,'pos');
+  h+=`<h3>Minimal forms (Quine-McCluskey)</h3><p class="big">SOP: F = ${esc(sop.text)}<br>POS: F = ${esc(pos.text)}</p>`;
+  if(n>=2&&n<=4){
+    h+='<h3>K-map</h3>'+kmapHTML(n,names,v,sop.chosen);
+    if(sop.chosen.length&&!(sop.chosen.length===1&&sop.chosen[0].m===total-1)){
+      h+='<div class="legend">'+sop.chosen.map((p,gi)=>`<span><i style="background:${GC[gi%GC.length]}"></i>${esc(termSOP(n,names,p))}</span>`).join('')+'</div>';
+    }
+    h+='<p class="mute">Dots show which groups of the SOP answer cover each cell.</p>';
+  }
+  return h;
+}
+let lgMode='expr';
+function runLogic(){
+  const out=$('#lgOut');
+  try{
+    if(lgMode==='expr'){
+      const ast=parseExpr($('#lgE').value);
+      const names=[...varsOf(ast)].sort();
+      if(names.length>6)throw new Error('Use at most 6 variables');
+      let h='';
+      if(!names.length){
+        h=`<div class="result">Constant expression, value: <b>${ev(ast,{})}</b></div>`;
+      }else{
+        const v=vectorOf(ast,names);
+        h=logicReport(names.length,names,v);
+      }
+      const e2=$('#lgE2').value.trim();
+      if(e2){
+        const a2=parseExpr(e2);
+        const all=[...new Set([...varsOf(ast),...varsOf(a2)])].sort();
+        if(all.length>6)throw new Error('Use at most 6 variables in total');
+        const n=all.length;let diff=-1;
+        for(let i=0;i<(1<<n)&&diff<0;i++){
+          const env={};all.forEach((nm,j)=>env[nm]=(i>>(n-1-j))&1);
+          if(ev(ast,env)!==ev(a2,env))diff=i;
+        }
+        if(diff<0)h=`<div class="result"><b>Equivalent:</b> both expressions give the same output for every input.</div>`+h;
+        else{
+          const env={};all.forEach((nm,j)=>env[nm]=(diff>>(n-1-j))&1);
+          h=`<div class="result"><b>Not equivalent.</b> For ${all.map(nm=>nm+'='+env[nm]).join(', ')} the first gives ${ev(ast,env)} and the second gives ${ev(a2,env)}.</div>`+h;
+        }
+      }
+      out.innerHTML=h;
+    }else{
+      const n=parseInt($('#lgN').value,10);
+      const names='ABCDEF'.slice(0,n).split('');
+      const total=1<<n;
+      const parse=s=>s.split(/[\s,]+/).filter(Boolean).map(x=>{const k=Number(x);if(!Number.isInteger(k)||k<0||k>=total)throw new Error('"'+x+'" is not a valid minterm for '+n+' variables (0 to '+(total-1)+')');return k;});
+      const ones=parse($('#lgM').value),dcs=parse($('#lgD').value);
+      const both=ones.filter(x=>dcs.includes(x));
+      if(both.length)throw new Error('Minterm '+both[0]+' is in both lists');
+      const v=Array(total).fill(0);ones.forEach(x=>v[x]=1);dcs.forEach(x=>v[x]=2);
+      out.innerHTML=logicReport(n,names,v);
+    }
+  }catch(err){out.innerHTML=`<p class="err">${esc(err.message)}</p>`;}
+}
+function logicHTML(){
+  return `<section class="panel"><h2>Truth table, Boolean simplifier and K-map</h2>
+  <div class="seg" role="group" aria-label="Mode"><button class="btn on" data-lm="expr">Expression</button><button class="btn" data-lm="min">Minterms</button></div>
+  <div id="lgExpr">
+    <div class="row"><label class="fld" style="flex:1;min-width:12rem">Expression<input class="in" id="lgE" value="A'B + AB' + C" spellcheck="false" autocapitalize="off" autocomplete="off"></label></div>
+    <div class="row"><label class="fld" style="flex:1;min-width:12rem">Compare with (optional)<input class="in" id="lgE2" placeholder="e.g. (A ^ B) | C" spellcheck="false" autocapitalize="off" autocomplete="off"></label></div>
+    <p class="mute">Variables A to Z. NOT: <code>!</code> or <code>'</code>. AND: <code>&amp;</code>, <code>*</code> or just write AB. OR: <code>|</code> or <code>+</code>. XOR: <code>^</code>. Implies: <code>-&gt;</code>. If and only if: <code>&lt;-&gt;</code>. Up to 6 variables.</p>
+  </div>
+  <div id="lgMin" hidden>
+    <div class="row"><label class="fld">Variables<select class="in" id="lgN"><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option></select></label>
+    <label class="fld" style="flex:1;min-width:10rem">Minterms<input class="in" id="lgM" value="0, 1, 2, 5, 8, 9, 10" autocomplete="off"></label>
+    <label class="fld" style="flex:1;min-width:8rem">Don't cares<input class="in" id="lgD" placeholder="e.g. 3, 7" autocomplete="off"></label></div>
+    <p class="mute">A is the most significant bit, so for 4 variables minterm 5 is A'BC'D.</p>
+  </div>
+  <div id="lgOut"></div></section>`;
+}
+
+/* ---------- base converter ---------- */
+function parseBig(str,base){
+  let s=str.trim().toLowerCase().replace(/[_\s]/g,'');
+  let neg=false;
+  if(s[0]==='-'){neg=true;s=s.slice(1);}else if(s[0]==='+')s=s.slice(1);
+  if(base===16&&s.startsWith('0x'))s=s.slice(2);
+  if(base===2&&s.startsWith('0b'))s=s.slice(2);
+  if(base===8&&s.startsWith('0o'))s=s.slice(2);
+  if(!s)throw new Error('Type a number');
+  let v=0n;
+  for(const ch of s){
+    const d=parseInt(ch,36);
+    if(isNaN(d)||d>=base)throw new Error('"'+ch+'" is not a valid digit in base '+base);
+    v=v*BigInt(base)+BigInt(d);
+  }
+  return neg?-v:v;
+}
+function group4(b){const p=b.padStart(Math.ceil(b.length/4)*4,'0');return p.match(/.{1,4}/g).join(' ');}
+function runBase(){
+  const out=$('#nbOut');
+  try{
+    const base=parseInt($('#nbBase').value,10);
+    if(!(base>=2&&base<=36))throw new Error('Base must be between 2 and 36');
+    const W=BigInt($('#nbW').value),w=Number(W);
+    const v=parseBig($('#nbIn').value,base);
+    const neg=v<0n,abs=neg?-v:v;
+    const sign=neg?'−':'';
+    let h=`<div class="tw"><table class="tt"><tbody>
+    <tr><th>Binary</th><td class="big">${sign}${group4(abs.toString(2))}</td></tr>
+    <tr><th>Octal</th><td class="big">${sign}${abs.toString(8)}</td></tr>
+    <tr><th>Decimal</th><td class="big">${v.toString(10)}</td></tr>
+    <tr><th>Hex</th><td class="big">${sign}${abs.toString(16).toUpperCase()}</td></tr></tbody></table></div>`;
+    h+=`<h3>${w}-bit representation</h3><div class="tw"><table class="tt"><tbody>`;
+    const mod=1n<<W,minS=-(1n<<(W-1n)),maxS=(1n<<(W-1n))-1n;
+    if(v>=minS&&v<=maxS){
+      const tc=((v%mod)+mod)%mod;
+      h+=`<tr><th>Two's complement</th><td class="big">${group4(tc.toString(2).padStart(w,'0'))}</td></tr>`;
+      const oc=neg?(mod-1n-abs):v;
+      h+=`<tr><th>One's complement</th><td class="big">${group4(oc.toString(2).padStart(w,'0'))}</td></tr>`;
+    }else h+=`<tr><td class="err">${v.toString()} does not fit in ${w} bits as a signed number (range ${minS} to ${maxS}).</td></tr>`;
+    if(!neg&&v<mod){
+      const sv=v>maxS?v-mod:v;
+      h+=`<tr><th>Bit pattern read as unsigned</th><td class="big">${v}</td></tr>`;
+      h+=`<tr><th>Bit pattern read as signed (two's complement)</th><td class="big">${sv}</td></tr>`;
+    }
+    h+='</tbody></table></div>';
+    if(!neg){
+      const g=abs^(abs>>1n);
+      const bcd=abs.toString(10).split('').map(d=>parseInt(d,10).toString(2).padStart(4,'0')).join(' ');
+      h+=`<h3>Codes</h3><div class="tw"><table class="tt"><tbody><tr><th>Gray code</th><td class="big">${group4(g.toString(2).padStart(abs.toString(2).length,'0'))}</td></tr><tr><th>BCD (of the decimal digits)</th><td class="big">${bcd}</td></tr></tbody></table></div>`;
+    }
+    out.innerHTML=h;
+  }catch(err){out.innerHTML=`<p class="err">${esc(err.message)}</p>`;}
+}
+function baseHTML(){
+  return `<section class="panel"><h2>Number base converter</h2>
+  <div class="row"><label class="fld" style="flex:1;min-width:10rem">Number<input class="in" id="nbIn" value="-42" spellcheck="false" autocomplete="off" autocapitalize="off"></label>
+  <label class="fld">From base<input class="in num" id="nbBase" type="number" min="2" max="36" value="10"></label>
+  <label class="fld">Bit width<select class="in" id="nbW"><option>4</option><option selected>8</option><option>16</option><option>32</option><option>64</option></select></label></div>
+  <p class="mute">Integers only. Use letters for digits above 9 (hex: A to F). A leading minus sign is allowed.</p>
+  <div id="nbOut"></div></section>`;
+}
+function buildTools(){
+  $('#view-tools').innerHTML=`<div class="tools-grid">${logicHTML()}${baseHTML()}</div>`;
+  runLogic(); runBase();
+}
+function toolsInput(e){
+  const id=e.target.id;
+  if(['lgE','lgE2','lgN','lgM','lgD'].includes(id))runLogic();
+  if(['nbIn','nbBase','nbW'].includes(id))runBase();
+}
+function toolsClick(e){
+  const b=e.target.closest('button[data-lm]'); if(!b)return;
+  lgMode=b.dataset.lm;
+  document.querySelectorAll('[data-lm]').forEach(x=>x.classList.toggle('on',x===b));
+  $('#lgExpr').hidden=lgMode!=='expr';
+  $('#lgMin').hidden=lgMode!=='min';
+  runLogic();
+}
+
+/* ---------- theme and events ---------- */
+const THEMES=['auto','light','paper','charcoal','board','black'];
+function setTheme(t,saveIt){
+  if(!THEMES.includes(t))t='auto';
+  if(t==='auto')document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.dataset.theme=t;
+  $('#themeSel').value=t;
+  if(saveIt){try{localStorage.setItem('hub-theme',t);}catch(e){}}
+}
+function copyText(txt,btn){
+  const done=()=>{const o=btn.textContent;btn.textContent='Copied';setTimeout(()=>btn.textContent=o,1200);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallback());}
+  else fallback();
+  function fallback(){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(ta);}
+}
+function setBar(){document.documentElement.style.setProperty('--bar-h',$('#bar').offsetHeight+'px');}
+
+function init(){
+  buildTabs(); buildHand(); buildDash(); buildTools();
+  $('#vtabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;q='';onlyStars=false;$('#q').value='';setView(b.dataset.v);});
+  $('#ctabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;cur=b.dataset.s;apply();window.scrollTo({top:0});});
+  $('#q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();if(q&&view!=='hand')view='hand';apply();});
+  $('#starBtn').addEventListener('click',()=>{onlyStars=!onlyStars;if(onlyStars)view='hand';apply();});
+  $('#main').addEventListener('click',e=>{
+    const cp=e.target.closest('.copy');
+    if(cp){copyText(cp.closest('.card').querySelector('code').textContent,cp);return;}
+    const b=e.target.closest('.star');if(!b)return;
+    const id=b.closest('.card').dataset.id;
+    if(stars.has(id)){stars.delete(id);b.setAttribute('aria-pressed','false');b.textContent='☆';}
+    else{stars.add(id);b.setAttribute('aria-pressed','true');b.textContent='★';}
+    saveStars();apply();
+  });
+  const dash=$('#view-dash');
+  dash.addEventListener('input',dashInput);dash.addEventListener('change',dashInput);dash.addEventListener('click',dashClick);
+  const tools=$('#view-tools');
+  tools.addEventListener('input',toolsInput);tools.addEventListener('change',toolsInput);tools.addEventListener('click',toolsClick);
+  $('#themeSel').addEventListener('change',e=>setTheme(e.target.value,true));
+  try{setTheme(localStorage.getItem('hub-theme')||'auto',false);}catch(e){setTheme('auto',false);}
+  window.addEventListener('beforeprint',()=>{document.querySelectorAll('.course').forEach(s=>s.hidden=false);document.querySelectorAll('details').forEach(d=>d.open=true);});
+  window.addEventListener('afterprint',apply);
+  apply();setBar();
+  window.addEventListener('resize',setBar);
+  if(window.ResizeObserver)new ResizeObserver(setBar).observe($('#bar'));
+  if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
+}
+init();
+</script>
+</body>
+</html>
